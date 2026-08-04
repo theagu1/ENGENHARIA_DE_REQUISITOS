@@ -9,17 +9,16 @@
 Os usuários do sistema serão:
 
 - Alunos
+- Professores
 - Coordenadores
 - Diretores
-- Porteiros
-- Pais
-- Professores
+- Pais ou responsáveis
 
 ## Requisitos Funcionais
 
 1. Cadastro de alunos.
-2. Registro de **timestamp** de entrada e saída dos alunos.
-3. Emissão de boletim com registro de notas.
+2. Lançamento e atualização de notas.
+3. Emissão de boletim escolar.
 
 ## Requisitos Não Funcionais
 
