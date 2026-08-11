@@ -486,6 +486,9 @@ Com a implementação da solução, espera-se:
 * **Facilitar o acesso ao conhecimento dos projetos;**
 * **Aumentar a eficiência dos processos internos.**
 
+## FERRAMENTAS USADAS
+
+* **usamos GPT para formatção em md;**
 
 
 
