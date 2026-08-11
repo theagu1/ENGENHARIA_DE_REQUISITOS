@@ -1,5 +1,6 @@
 # Atividade — 11/08/2026
-
+##Squad
+Luiz Claudio, Arthur Santos, Nathan Andrade e Thiago Braziellas
 ## 1. Problema
 
 Uma startup enfrenta dificuldades na **organização e acompanhamento de seus projetos**, principalmente em relação à comunicação interna, controle de tarefas, identificação de atrasos e visibilidade gerencial.
