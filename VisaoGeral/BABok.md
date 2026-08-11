@@ -1,5 +1,5 @@
 # Atividade — 11/08/2026
-##Squad
+#Squad
 Luiz Claudio, Arthur Santos, Nathan Andrade e Thiago Braziellas
 ## 1. Problema
 
