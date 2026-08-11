@@ -303,20 +303,20 @@ O sistema poderá:
 Exemplo de resultado:
 
 ```text
-📋 Daily — Projeto X
+Daily — Projeto X
 
-👨‍💻 Desenvolvedor: João
+Desenvolvedor: João
 
-✅ Concluído:
+Concluído:
 - API de autenticação.
 
-🚧 Impedimento:
+Impedimento:
 - Integração com o banco aguardando credenciais.
 
-⚠️ Atenção:
+Atenção:
 - A ausência das credenciais pode impactar o prazo da tarefa.
 
-📌 Próxima ação:
+Próxima ação:
 - Disponibilizar as credenciais necessárias para continuidade da integração.
 ```
 
