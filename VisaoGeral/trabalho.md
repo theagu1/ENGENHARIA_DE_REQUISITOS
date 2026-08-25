@@ -1,350 +1,242 @@
 # Atividade — 18/08/2026
 
-# Sistema Integrado de Gestão de Clínica Médica
-
----
+# Sistema de Gestão para Clínica Médica
 
 ## 1. Stakeholders
 
-Os stakeholders são todas as pessoas, grupos ou setores que possuem interesse no sistema, utilizam suas funcionalidades ou são impactados direta ou indiretamente por sua implantação.
+Os stakeholders são as pessoas ou grupos que utilizam o sistema, participam do processo ou são afetados diretamente pelas mudanças que ele vai trazer para a clínica.
 
-Os principais stakeholders identificados para o sistema são:
+Neste projeto, foram identificados os seguintes stakeholders:
 
-### 1.1 Paciente
+* **Paciente:** é o principal beneficiado pelo sistema. Deve conseguir realizar e acompanhar agendamentos, receber lembretes e ser informado quando houver alguma alteração em sua consulta.
+* **Recepcionista:** utiliza o sistema no dia a dia para cadastrar pacientes, consultar horários, realizar agendamentos, cancelar consultas e controlar a chegada dos pacientes.
+* **Médico:** utiliza o sistema para acompanhar sua agenda, consultar os pacientes agendados, organizar sua disponibilidade e registrar informações relacionadas ao atendimento.
+* **Gerente da clínica:** acompanha o funcionamento da operação e utiliza os indicadores para identificar problemas e oportunidades de melhoria.
+* **Equipe de TI:** é responsável pela manutenção, segurança, disponibilidade e evolução técnica do sistema.
+* **Direção da clínica:** possui interesse nos resultados gerais do sistema, principalmente na redução de custos, melhora da organização e qualidade do atendimento.
 
-O paciente é um dos principais usuários beneficiados pelo sistema. Ele deve ser capaz de consultar informações sobre suas consultas, receber lembretes, confirmar ou cancelar agendamentos e, quando disponibilizado, utilizar canais de autoatendimento.
-
-Os principais interesses do paciente são:
-
-- Facilidade para realizar agendamentos;
-- Rapidez no atendimento;
-- Recebimento de lembretes;
-- Comunicação clara sobre alterações na consulta;
-- Redução do tempo de espera;
-- Segurança e privacidade dos seus dados;
-- Facilidade para cancelar ou reagendar consultas;
-- Possibilidade de responder pesquisas de satisfação.
+Cada stakeholder possui necessidades diferentes. Por isso, o sistema deve considerar tanto as necessidades dos usuários que trabalham diretamente com a clínica quanto as necessidades dos gestores responsáveis por acompanhar os resultados.
 
 ---
 
-### 1.2 Recepcionista
+## 2. Problemas de Negócio
 
-A recepcionista é responsável por grande parte das operações administrativas relacionadas ao atendimento dos pacientes.
+Antes de definir as funcionalidades do sistema, foi necessário identificar os principais problemas enfrentados pela clínica.
 
-O sistema deve apoiar a recepcionista nas seguintes atividades:
+### 2.1 Conflitos de horários
 
-- Cadastro de pacientes;
-- Atualização de dados cadastrais;
-- Consulta de horários disponíveis;
-- Realização de agendamentos;
-- Cancelamento e reagendamento;
-- Confirmação da chegada do paciente;
-- Alteração do status para **"Em Espera"**;
-- Consulta da agenda dos médicos;
-- Utilização da fila de espera.
+Um dos principais problemas é a possibilidade de ocorrerem conflitos de horários. Como as informações podem estar distribuídas em planilhas ou sistemas diferentes, um mesmo horário pode aparecer como disponível para mais de uma pessoa.
 
-O principal benefício para a recepcionista deve ser a redução do retrabalho e a diminuição de erros causados pela utilização de planilhas ou sistemas descentralizados.
+Isso pode causar:
+
+* Dupla marcação de consultas;
+* Sobrecarga do médico;
+* Confusão na recepção;
+* Necessidade de remarcar consultas;
+* Insatisfação dos pacientes.
 
 ---
 
-### 1.3 Médico
+### 2.2 Retrabalho
 
-O médico utiliza o sistema para acompanhar e administrar suas atividades relacionadas aos atendimentos.
+Outro problema identificado é o retrabalho. Algumas informações precisam ser procuradas ou preenchidas novamente porque não estão centralizadas.
 
-O sistema deve permitir que o médico:
+Por exemplo, um paciente que já possui cadastro pode precisar informar novamente seus dados básicos quando realiza uma nova consulta.
 
-- Consulte sua agenda;
-- Visualize os pacientes agendados;
-- Gerencie sua disponibilidade;
-- Bloqueie horários;
-- Registre informações relacionadas ao atendimento;
-- Acesse prontuários autorizados;
-- Inicie o atendimento de pacientes que estejam aptos para atendimento.
+Isso aumenta:
 
-O médico possui acesso a informações sensíveis e, por esse motivo, suas permissões devem respeitar as regras de segurança e privacidade do sistema.
+* O tempo de atendimento;
+* O trabalho da recepção;
+* A possibilidade de erro;
+* A insatisfação do paciente.
 
 ---
 
-### 1.4 Gerente da Clínica
+### 2.3 Duplicidade de informações
 
-O gerente da clínica utiliza o sistema para acompanhar o funcionamento da operação e analisar os resultados.
+Sem um banco de dados centralizado e sem validações adequadas, existe a possibilidade de o mesmo paciente possuir mais de um cadastro.
 
-O sistema deve fornecer informações relacionadas a:
-
-- Taxa de faltas;
-- Ocupação da agenda;
-- Cancelamentos;
-- Tempo de espera;
-- Reocupação de horários;
-- Desempenho da recepção;
-- Taxa de resposta aos lembretes;
-- Satisfação dos pacientes;
-- Disponibilidade do sistema.
+Essa duplicidade pode gerar informações diferentes para uma mesma pessoa e dificultar a consulta do histórico correto.
 
 ---
 
-### 1.5 Equipe de TI
+### 2.4 Dificuldade para atualizar dados
 
-A equipe de TI é responsável pelo suporte técnico, manutenção, segurança, disponibilidade e evolução do sistema.
+Quando as informações estão distribuídas entre várias planilhas ou programas, uma alteração feita em um local pode não aparecer nos demais.
 
-Os principais interesses da equipe de TI são:
-
-- Segurança dos dados;
-- Controle de acessos;
-- Realização de backups;
-- Monitoramento da disponibilidade;
-- Correção de falhas;
-- Atualização do sistema;
-- Integração com serviços externos;
-- Manutenção da infraestrutura tecnológica.
+Isso faz com que diferentes usuários trabalhem com dados desatualizados.
 
 ---
 
-### 1.6 Direção da Clínica
+### 2.5 Falhas na comunicação com os pacientes
 
-A direção possui interesse nos resultados estratégicos e operacionais gerados pela utilização do sistema.
+A clínica também enfrenta dificuldades na comunicação com os pacientes.
 
-A direção deve utilizar os indicadores e relatórios para:
-
-- Avaliar a eficiência da clínica;
-- Identificar problemas operacionais;
-- Analisar o aproveitamento da agenda;
-- Acompanhar a satisfação dos pacientes;
-- Avaliar os impactos financeiros causados por faltas e horários ociosos;
-- Apoiar decisões relacionadas à expansão e melhoria dos serviços.
+Sem lembretes automáticos, o paciente pode esquecer a data ou o horário da consulta. Da mesma forma, quando ocorre uma alteração na agenda médica, pode ser difícil avisar todos os pacientes envolvidos.
 
 ---
 
-# 2. Problemas de Negócio
+### 2.6 Dificuldade para controlar cancelamentos
 
-## 2.1 Conflitos de Horários
+Quando uma consulta é cancelada, o horário pode ficar vazio até o final do dia.
 
-A utilização de planilhas e sistemas não sincronizados pode causar conflitos de agendamento.
-
-Um mesmo médico pode aparecer como disponível para diferentes usuários ao mesmo tempo, permitindo que mais de uma consulta seja marcada para o mesmo horário.
-
-### Impactos
-
-- Dupla marcação;
-- Insatisfação dos pacientes;
-- Necessidade de remanejamento;
-- Sobrecarga da recepção;
-- Perda de credibilidade;
-- Desorganização da agenda médica.
+Sem uma fila de espera ou algum processo de reocupação, a clínica perde a oportunidade de utilizar aquele horário para atender outro paciente.
 
 ---
 
-## 2.2 Retrabalho
+## 3. Principais Causas dos Problemas
 
-A ausência de um sistema centralizado faz com que informações já existentes precisem ser consultadas, copiadas ou preenchidas novamente.
+Os problemas identificados possuem relação principalmente com a forma como as informações são armazenadas e utilizadas.
 
-Por exemplo, um paciente que já possui cadastro pode ter seus dados solicitados novamente em um novo atendimento.
+As principais causas são:
 
-### Impactos
+* Utilização de planilhas individuais sem sincronização;
+* Ausência de um banco de dados centralizado;
+* Utilização de diferentes softwares para processos relacionados;
+* Falta de atualização em tempo real da agenda;
+* Ausência de lembretes automáticos;
+* Falta de uma fila de espera organizada;
+* Dependência de processos manuais;
+* Falta de integração entre os envolvidos no processo.
 
-- Perda de tempo;
-- Aumento do tempo de atendimento;
-- Maior possibilidade de erro humano;
-- Baixa produtividade;
-- Experiência negativa para o paciente.
-
----
-
-## 2.3 Duplicidade de Informações
-
-Sem uma base de dados centralizada e com validações adequadas, o mesmo paciente pode possuir mais de um cadastro.
-
-### Impactos
-
-- Informações divergentes;
-- Dificuldade de atualização;
-- Duplicidade de registros;
-- Problemas na identificação do paciente;
-- Risco de inconsistências em históricos e prontuários.
-
----
-
-## 2.4 Dificuldade de Atualização dos Dados
-
-A existência de diferentes planilhas e softwares faz com que uma alteração realizada em um local não seja automaticamente refletida nos demais.
-
-### Impactos
-
-- Informações desatualizadas;
-- Divergências entre sistemas;
-- Erros no atendimento;
-- Retrabalho;
-- Dificuldade de controle.
-
----
-
-## 2.5 Falhas na Comunicação com Pacientes
-
-A ausência de mecanismos automatizados de comunicação dificulta o envio de lembretes, confirmações e avisos sobre alterações na agenda.
-
-### Impactos
-
-- Aumento da taxa de faltas;
-- Pacientes desinformados;
-- Dificuldade para confirmar consultas;
-- Perda de horários;
-- Baixa eficiência no atendimento.
-
----
-
-## 2.6 Dificuldade para Controlar Cancelamentos
-
-Quando uma consulta é cancelada, o horário pode permanecer ocioso por falta de um mecanismo rápido de reocupação.
-
-### Impactos
-
-- Perda de oportunidades de atendimento;
-- Baixa ocupação da agenda;
-- Horários vagos;
-- Redução da eficiência operacional.
-
----
-
-# 3. Causas dos Problemas
-
-As principais causas identificadas são:
-
-- Utilização de planilhas individuais sem sincronização;
-- Ausência de um banco de dados centralizado;
-- Utilização de diferentes softwares para atividades relacionadas;
-- Ausência de controle centralizado da agenda;
-- Ausência de validações adequadas;
-- Ausência de mecanismos automáticos de lembrete;
-- Ausência de uma fila de espera automatizada;
-- Dependência excessiva de processos manuais.
+A principal proposta do sistema é justamente centralizar essas informações e permitir que todos trabalhem com uma base única e atualizada.
 
 ---
 
 # 4. Regras de Negócio
 
-## RN01 — CPF único
+As regras de negócio representam condições que devem ser respeitadas durante o funcionamento do sistema.
 
-O sistema deve exigir o cadastro de um número de CPF válido e único para cada paciente.
+Elas ajudam a garantir que os processos ocorram de acordo com as necessidades da clínica.
 
-O sistema não deve permitir a criação de mais de um cadastro ativo associado ao mesmo CPF.
+---
+
+### RN01 — CPF válido e único
+
+O cadastro de um paciente deve possuir um CPF válido.
+
+O mesmo CPF não deve ser utilizado em mais de um cadastro ativo.
 
 **Classificação:** Estudo de Caso — Duplicidade de informações.
 
 ---
 
-## RN02 — Conflito de horários
+### RN02 — Um paciente por horário
 
-O sistema deve garantir que cada médico possua apenas um paciente agendado por horário.
+Um médico não deve possuir mais de um paciente agendado para o mesmo horário.
 
-O sistema não deve permitir a confirmação de um novo agendamento quando o horário selecionado já estiver ocupado para o mesmo médico.
+O sistema deve verificar a disponibilidade antes de concluir o agendamento.
 
-**Classificação:** Estudo de Caso — Overbooking.
+**Classificação:** Estudo de Caso — Conflito de horários.
 
 ---
 
-## RN03 — Horários disponíveis
+### RN03 — Agendamento dentro da escala
 
-O sistema deve permitir agendamentos apenas em horários previamente cadastrados como disponíveis na escala do médico.
+Os agendamentos devem ser realizados apenas nos horários que estiverem cadastrados como disponíveis na escala do médico.
 
-O sistema não deve permitir o agendamento fora da disponibilidade cadastrada.
+Um paciente não deve ser agendado fora da disponibilidade cadastrada.
 
 **Classificação:** Processo de Negócio.
 
 ---
 
-## RN04 — Cancelamento e disponibilidade
+### RN04 — Liberação após cancelamento
 
-Quando uma consulta for cancelada, o sistema deve alterar o status do agendamento para **"Cancelado"** e disponibilizar o horário para novas marcações ou para a fila de espera.
+Quando uma consulta for cancelada, o horário deve ficar disponível novamente.
 
-O sistema não deve manter um horário cancelado como ocupado na agenda.
+O horário não deve continuar aparecendo como ocupado após o cancelamento.
 
 **Classificação:** Estudo de Caso — Cancelamentos.
 
 ---
 
-## RN05 — Alteração da escala médica
+### RN05 — Alteração da agenda médica
 
-Quando houver alteração na escala de um médico, o sistema deve identificar os pacientes que possuem consultas impactadas.
+Quando uma alteração na escala de um médico afetar pacientes já agendados, esses pacientes devem ser identificados.
 
-O sistema deve gerar notificações automáticas para os pacientes afetados.
+O sistema deve gerar uma notificação para informar os pacientes sobre a alteração.
 
-**Classificação:** Estudo de Caso — Mudanças de Agenda.
+**Classificação:** Estudo de Caso — Mudanças de agenda.
 
 ---
 
-## RN06 — Lembretes automáticos
+### RN06 — Lembretes de consulta
 
-O sistema deve enviar lembretes automáticos de consulta com antecedência de 24 horas e 2 horas.
+Os pacientes devem receber lembretes automáticos antes de suas consultas.
 
-Os lembretes devem informar, no mínimo, a data, o horário e o profissional responsável pelo atendimento.
+Os lembretes devem ser enviados com 24 horas e 2 horas de antecedência.
 
 **Classificação:** Estudo de Caso — Faltas.
 
 ---
 
-## RN07 — Reutilização do cadastro
+### RN07 — Reutilização de dados
 
-Quando um paciente já possuir cadastro válido, o sistema deve reutilizar suas informações existentes em novos agendamentos.
+Quando o paciente já possuir um cadastro válido, seus dados básicos devem ser reutilizados nos próximos agendamentos.
 
-O sistema não deve exigir o preenchimento novamente de dados básicos que já estejam armazenados e atualizados.
+O paciente não deve precisar informar novamente informações que já estejam cadastradas e atualizadas.
 
 **Classificação:** Estudo de Caso — Retrabalho.
 
 ---
 
-## RN08 — Acesso ao prontuário
+### RN08 — Acesso ao prontuário
 
-O sistema deve permitir o registro e a visualização de prontuários apenas para usuários autorizados.
+As informações do prontuário devem ser acessadas apenas por usuários autorizados.
 
-O sistema não deve permitir que usuários sem autorização profissional acessem informações médicas restritas.
+Usuários sem permissão não devem visualizar ou alterar informações médicas restritas.
 
-**Classificação:** Segurança e Privacidade.
-
----
-
-## RN09 — Prioridade para horários não confirmados
-
-Quando um paciente não confirmar sua presença até quatro horas antes do horário da consulta, o sistema deve identificar o agendamento como candidato à prioridade de reocupação, conforme as políticas definidas pela clínica.
-
-O sistema não deve cancelar automaticamente a consulta sem que essa política esteja definida e autorizada.
-
-**Classificação:** Política Operacional.
+**Classificação:** Segurança e privacidade.
 
 ---
 
-## RN10 — Início do atendimento
+### RN09 — Prioridade de reocupação
 
-O sistema deve permitir o início do atendimento pelo médico quando o paciente estiver com o status **"Em Espera"**.
+Caso um paciente não confirme sua consulta dentro do prazo definido pela clínica, o horário poderá ser identificado como prioridade para reocupação.
 
-O sistema não deve permitir que uma consulta seja marcada como iniciada quando o paciente ainda estiver com um status incompatível com o fluxo de atendimento.
+O processo deve respeitar as regras operacionais definidas pela clínica.
 
-**Classificação:** Operacional da Clínica.
+**Classificação:** Política operacional.
+
+---
+
+### RN10 — Início do atendimento
+
+O atendimento deve seguir o fluxo definido pela clínica.
+
+A consulta deve ser iniciada quando o paciente estiver identificado e com o status adequado para atendimento.
+
+**Classificação:** Operacional da clínica.
 
 ---
 
 # 5. Melhorias Propostas
 
-| Problema | Melhoria Proposta | Resultado Esperado |
-|---|---|---|
-| Conflitos de horários | Implantação de agenda unificada em tempo real | Redução de dupla marcação |
-| Retrabalho | Centralização do cadastro dos pacientes | Redução do preenchimento repetitivo |
-| Duplicidade de dados | Validação de CPF único | Maior consistência das informações |
-| Dados desatualizados | Base de dados centralizada | Informações mais confiáveis |
-| Falhas na comunicação | Lembretes e notificações automáticas | Redução de faltas |
-| Cancelamentos | Liberação automática de horários | Maior ocupação da agenda |
-| Horários ociosos | Fila de espera automatizada | Reocupação mais rápida |
-| Falta de acompanhamento | Dashboards e indicadores | Melhor apoio à gestão |
+| Problema                   | Melhoria                                                       |
+| -------------------------- | -------------------------------------------------------------- |
+| Conflitos de horários      | Implantação de uma agenda unificada e atualizada em tempo real |
+| Retrabalho                 | Centralização das informações dos pacientes                    |
+| Duplicidade de dados       | Validação de CPF único no cadastro                             |
+| Dificuldade de atualização | Utilização de um banco de dados centralizado                   |
+| Falhas na comunicação      | Envio automático de lembretes e notificações                   |
+| Cancelamentos              | Liberação automática do horário e utilização de fila de espera |
+| Falta de acompanhamento    | Criação de dashboards e indicadores                            |
+
+A ideia principal é que as melhorias estejam diretamente relacionadas aos problemas encontrados.
+
+Por exemplo, a fila de espera foi proposta para resolver a dificuldade de reaproveitar horários cancelados. Da mesma forma, os lembretes automáticos foram incluídos para ajudar a reduzir faltas.
 
 ---
 
 # 6. Requisitos Funcionais
 
-Os requisitos funcionais descrevem as funções e os comportamentos que o sistema deve executar.
+Os requisitos funcionais descrevem as ações que o sistema deve realizar.
 
-Para tornar os requisitos mais claros, foram utilizadas duas formas principais de redação:
+Para manter os requisitos claros, foram utilizadas principalmente duas formas de escrita:
 
-- **O sistema deve...** para definir comportamentos obrigatórios;
-- **O sistema não deve...** para definir restrições e comportamentos proibidos.
+* **O sistema deve...** para definir o que é obrigatório;
+* **O sistema não deve...** para definir o que não pode acontecer.
 
 ---
 
@@ -352,35 +244,39 @@ Para tornar os requisitos mais claros, foram utilizadas duas formas principais d
 
 **Prioridade: Alta**
 
-O sistema deve permitir cadastrar pacientes informando, no mínimo, nome completo, CPF, data de nascimento e informações de contato.
+O sistema deve permitir cadastrar pacientes.
 
-O sistema deve permitir consultar os dados cadastrais de um paciente.
+O sistema deve permitir consultar os dados cadastrados.
 
-O sistema deve permitir atualizar os dados cadastrais de pacientes.
+O sistema deve permitir atualizar informações do paciente.
 
-O sistema deve permitir inativar pacientes sem excluir permanentemente o histórico existente.
+O sistema deve permitir inativar um cadastro sem apagar o histórico já registrado.
 
-O sistema deve validar a unicidade do CPF antes de concluir um novo cadastro.
+O cadastro deve possuir, no mínimo, informações básicas para identificar e entrar em contato com o paciente.
 
-O sistema não deve permitir a criação de dois cadastros ativos com o mesmo CPF.
+O sistema deve validar o CPF informado.
 
-O sistema não deve excluir automaticamente o histórico de consultas e registros relacionados ao paciente quando seu cadastro for inativado.
+O sistema não deve permitir dois pacientes ativos cadastrados com o mesmo CPF.
+
+O sistema não deve apagar automaticamente o histórico do paciente quando seu cadastro for inativado.
 
 ---
 
-## RF02 — Gerenciamento de Médicos e Especialidades
+## RF02 — Gerenciamento de Médicos e Escalas
 
 **Prioridade: Alta**
 
 O sistema deve permitir cadastrar médicos.
 
-O sistema deve permitir associar um ou mais dados profissionais e especialidades ao cadastro do médico, conforme as regras da clínica.
+O sistema deve permitir registrar as especialidades dos médicos.
 
-O sistema deve permitir cadastrar a escala e a disponibilidade de atendimento de cada médico.
+O sistema deve permitir cadastrar a escala e os horários de atendimento.
 
-O sistema deve permitir consultar e atualizar as informações relacionadas à disponibilidade médica.
+O sistema deve permitir atualizar a disponibilidade do médico.
 
-O sistema não deve disponibilizar horários para agendamento quando não existir escala cadastrada ou quando o horário estiver bloqueado.
+O sistema deve permitir consultar os horários cadastrados.
+
+O sistema não deve disponibilizar para agendamento um horário que esteja fora da escala ou bloqueado.
 
 ---
 
@@ -388,19 +284,17 @@ O sistema não deve disponibilizar horários para agendamento quando não existi
 
 **Prioridade: Alta**
 
-O sistema deve permitir consultar horários disponíveis para agendamento.
+O sistema deve permitir consultar os horários disponíveis para agendamento.
 
 A consulta deve considerar o médico selecionado.
 
-A consulta deve considerar a data selecionada.
+A consulta deve considerar a data escolhida.
 
-A consulta deve considerar a escala cadastrada para o profissional.
+O sistema deve considerar a escala cadastrada para o profissional.
 
-A consulta deve apresentar apenas horários efetivamente disponíveis.
+O sistema deve atualizar os horários disponíveis sempre que ocorrer um novo agendamento, cancelamento ou bloqueio.
 
-O sistema não deve apresentar como disponível um horário que já possua um agendamento confirmado ou bloqueado.
-
-O sistema deve atualizar a disponibilidade dos horários após a criação, alteração ou cancelamento de um agendamento.
+O sistema não deve apresentar como disponível um horário que já esteja ocupado ou bloqueado.
 
 ---
 
@@ -408,19 +302,19 @@ O sistema deve atualizar a disponibilidade dos horários após a criação, alte
 
 **Prioridade: Muito Alta**
 
-O sistema deve permitir realizar agendamentos de consultas para pacientes cadastrados.
+O sistema deve permitir realizar o agendamento de consultas.
 
-O sistema deve associar cada agendamento a um paciente, médico, data e horário.
+Cada agendamento deve estar relacionado a um paciente, um médico, uma data e um horário.
 
-O sistema deve validar a disponibilidade do horário no momento da confirmação do agendamento.
+O sistema deve verificar se o horário continua disponível antes de confirmar o agendamento.
 
-O sistema deve bloquear a concorrência de horários durante o processo de confirmação.
+O sistema deve impedir conflitos de horários.
 
-O sistema não deve permitir a conclusão de dois agendamentos para o mesmo médico, data e horário.
+O sistema não deve permitir dois agendamentos para o mesmo médico no mesmo horário.
 
-O sistema deve registrar o status inicial do novo agendamento como **"Agendado"**.
+Ao criar um novo agendamento, o sistema deve registrar inicialmente o status **"Agendado"**.
 
-O sistema deve registrar a data e o horário da criação do agendamento.
+O sistema deve registrar a data e o horário em que o agendamento foi criado.
 
 ---
 
@@ -428,33 +322,33 @@ O sistema deve registrar a data e o horário da criação do agendamento.
 
 **Prioridade: Muito Alta**
 
-O sistema deve permitir cancelar consultas.
+O sistema deve permitir cancelar uma consulta.
 
 O sistema deve registrar o cancelamento no histórico do agendamento.
 
-O sistema deve atualizar o status da consulta para **"Cancelado"**.
+O sistema deve alterar o status da consulta para **"Cancelado"**.
 
-O sistema deve permitir realizar o reagendamento de uma consulta para outro horário disponível.
+O sistema deve permitir reagendar uma consulta para outro horário disponível.
 
-O sistema deve validar a disponibilidade do novo horário antes de concluir o reagendamento.
+Antes de confirmar o reagendamento, o sistema deve verificar a disponibilidade do novo horário.
 
-O sistema não deve manter simultaneamente dois horários ativos para a mesma consulta após a conclusão do reagendamento.
+O sistema não deve manter dois horários ativos para a mesma consulta depois que o reagendamento for concluído.
 
 ---
 
-## RF06 — Liberação Automática de Horários Cancelados
+## RF06 — Liberação Automática de Horários
 
 **Prioridade: Muito Alta**
 
-O sistema deve liberar automaticamente um horário quando uma consulta for cancelada.
+Quando uma consulta for cancelada, o sistema deve liberar o horário automaticamente.
 
-O sistema deve atualizar a agenda imediatamente após a confirmação do cancelamento.
+O sistema deve atualizar a agenda após o cancelamento.
 
-O sistema deve permitir que o horário liberado seja utilizado para um novo agendamento.
+O horário liberado deve ficar disponível para novos agendamentos.
 
-O sistema deve permitir que o horário liberado seja oferecido aos pacientes elegíveis da fila de espera.
+O horário também pode ser utilizado no processo de fila de espera.
 
-O sistema não deve manter um horário cancelado indisponível sem uma regra específica de bloqueio cadastrada.
+O sistema não deve manter como ocupado um horário pertencente a uma consulta cancelada.
 
 ---
 
@@ -462,17 +356,17 @@ O sistema não deve manter um horário cancelado indisponível sem uma regra esp
 
 **Prioridade: Muito Alta**
 
-O sistema deve enviar lembretes automáticos aos pacientes com consultas futuras.
+O sistema deve enviar lembretes automáticos para os pacientes que possuem consultas futuras.
 
-O sistema deve enviar um lembrete com antecedência de 24 horas.
+O sistema deve enviar um lembrete com 24 horas de antecedência.
 
-O sistema deve enviar um novo lembrete com antecedência de 2 horas.
+O sistema deve enviar outro lembrete com 2 horas de antecedência.
 
-O sistema deve utilizar os canais de comunicação configurados pela clínica, como WhatsApp e SMS, quando esses canais estiverem disponíveis.
+Os lembretes devem utilizar os canais de comunicação disponíveis e cadastrados pela clínica, como WhatsApp ou SMS.
 
-O sistema deve registrar o envio dos lembretes.
+O sistema deve registrar o envio das mensagens.
 
-O sistema deve permitir registrar a resposta do paciente quando houver interação de confirmação.
+Quando o paciente responder à mensagem, o sistema deve registrar essa interação quando houver integração disponível.
 
 O sistema não deve enviar lembretes para consultas canceladas.
 
@@ -482,17 +376,17 @@ O sistema não deve enviar lembretes para consultas canceladas.
 
 **Prioridade: Alta**
 
-O sistema deve permitir que o médico autorizado consulte sua própria agenda.
+O sistema deve permitir que o médico consulte sua própria agenda.
 
-O sistema deve permitir que o médico bloqueie horários disponíveis.
+O sistema deve permitir que o médico visualize seus horários e pacientes agendados.
 
-O sistema deve permitir que o médico solicite ou realize alterações na sua disponibilidade, conforme suas permissões.
+O sistema deve permitir bloquear horários.
 
-O sistema deve impedir novos agendamentos em horários bloqueados.
+O sistema deve considerar os horários bloqueados durante novos agendamentos.
 
-Quando uma alteração na agenda impactar consultas existentes, o sistema deve identificar os pacientes afetados.
+O sistema não deve permitir novos agendamentos em horários que estejam bloqueados.
 
-O sistema deve gerar o processo de notificação para os pacientes impactados.
+Quando uma alteração na agenda afetar pacientes já agendados, o sistema deve identificar os pacientes envolvidos.
 
 ---
 
@@ -502,13 +396,13 @@ O sistema deve gerar o processo de notificação para os pacientes impactados.
 
 O sistema deve permitir registrar informações relacionadas às consultas no prontuário eletrônico.
 
-O sistema deve associar cada registro ao paciente e ao atendimento correspondente.
+Cada registro deve estar associado ao paciente correspondente.
 
-O sistema deve permitir a visualização do histórico autorizado do paciente.
+O sistema deve permitir consultar o histórico autorizado do paciente.
 
-O sistema deve controlar o acesso ao prontuário de acordo com o perfil do usuário.
+O sistema deve controlar o acesso às informações conforme as permissões de cada usuário.
 
-O sistema não deve permitir que usuários sem autorização acessem, alterem ou visualizem informações médicas restritas.
+O sistema não deve permitir que usuários sem autorização visualizem ou alterem informações médicas restritas.
 
 ---
 
@@ -518,57 +412,50 @@ O sistema não deve permitir que usuários sem autorização acessem, alterem ou
 
 O sistema deve permitir cadastrar pacientes em uma fila de espera.
 
-O sistema deve permitir registrar preferências relacionadas à disponibilidade do paciente, quando aplicável.
+O sistema deve identificar horários que foram liberados após cancelamentos.
 
-Quando um horário for liberado, o sistema deve identificar pacientes compatíveis com o horário disponível.
+O sistema deve permitir relacionar pacientes da fila aos horários compatíveis com sua disponibilidade.
 
-O sistema deve permitir utilizar critérios de prioridade definidos pela clínica.
+O sistema deve registrar o processo de contato e ocupação do horário.
 
-O sistema deve registrar o resultado das tentativas de contato e reocupação.
-
-O sistema não deve oferecer o mesmo horário a pacientes diferentes como confirmado simultaneamente.
+O sistema não deve confirmar o mesmo horário para mais de um paciente.
 
 ---
 
-## RF11 — Avisos sobre Alteração da Agenda Médica
+## RF11 — Avisos sobre Alterações na Agenda
 
 **Prioridade: Alta**
 
-Quando uma alteração na escala médica afetar consultas existentes, o sistema deve identificar todos os pacientes impactados.
+Quando ocorrer uma alteração na escala médica, o sistema deve identificar os pacientes afetados.
 
-O sistema deve gerar avisos automáticos para os pacientes afetados.
+O sistema deve gerar avisos para os pacientes que possuem consultas impactadas.
 
-O sistema deve registrar o envio das notificações.
+O sistema deve registrar que a comunicação foi enviada.
 
-A comunicação deve informar que ocorreu uma alteração na agenda.
-
-O sistema deve disponibilizar à equipe responsável as informações necessárias para acompanhar os pacientes impactados.
-
-O sistema não deve enviar avisos sobre alterações que não afetem o agendamento do paciente.
+O sistema não deve enviar notificações de alteração para pacientes que não foram afetados pela mudança.
 
 ---
 
-## RF12 — Dashboard Gerencial
+## RF12 — Dashboard de Indicadores
 
 **Prioridade: Média**
 
-O sistema deve disponibilizar dashboards para acompanhamento do desempenho da clínica.
+O sistema deve disponibilizar dashboards para acompanhamento do funcionamento da clínica.
 
-O dashboard deve apresentar indicadores relacionados a:
+O sistema deve apresentar indicadores relacionados a:
 
-- Taxa de no-show;
-- Taxa de ocupação da agenda;
-- Tempo médio de reocupação de vagas;
-- Taxa de conversão da lista de prioridade;
-- Tempo médio de atendimento na recepção;
-- Tempo médio de espera do paciente;
-- Índice de retrabalho no cadastro;
-- Taxa de resposta aos lembretes;
-- Índice de satisfação;
-- Disponibilidade do sistema;
-- Tempo de resposta de busca.
+* Faltas dos pacientes;
+* Ocupação da agenda;
+* Cancelamentos;
+* Reocupação de horários;
+* Tempo de espera;
+* Tempo de atendimento na recepção;
+* Resposta aos lembretes;
+* Satisfação dos pacientes;
+* Disponibilidade do sistema;
+* Tempo de resposta das consultas.
 
-O sistema deve permitir a visualização dos indicadores em períodos definidos.
+O sistema deve permitir visualizar os indicadores em períodos definidos.
 
 ---
 
@@ -576,41 +463,39 @@ O sistema deve permitir a visualização dos indicadores em períodos definidos.
 
 **Prioridade: Alta**
 
-O sistema deve disponibilizar meios de autoatendimento para consultas e agendamentos.
+O sistema deve disponibilizar um canal de autoatendimento para os pacientes.
 
-O sistema pode disponibilizar esse acesso por portal web, chatbot ou outros canais integrados.
+O autoatendimento pode ser realizado por meio de um portal web ou chatbot integrado.
 
-O sistema deve validar a disponibilidade do horário antes da confirmação.
+O sistema deve permitir consultar horários disponíveis.
 
-O sistema deve registrar o agendamento realizado pelo canal de autoatendimento.
+O sistema deve validar o horário antes da confirmação do agendamento.
 
-O sistema não deve permitir que o canal de autoatendimento confirme um horário indisponível.
+O sistema não deve confirmar um horário que já esteja ocupado.
 
-O sistema não deve permitir que o autoatendimento contorne as mesmas regras aplicadas ao agendamento realizado pela recepção.
+As mesmas regras de disponibilidade utilizadas pela recepção devem ser respeitadas pelo autoatendimento.
 
 ---
 
-## RF14 — Controle de Status do Atendimento
+## RF14 — Controle do Status do Atendimento
 
 **Prioridade: Muito Alta**
 
-O sistema deve controlar os seguintes status do processo de atendimento:
+O sistema deve controlar os seguintes status:
 
-- **Agendado**;
-- **Confirmado**;
-- **Em Espera**;
-- **Atendido**;
-- **Cancelado**.
+* **Agendado**;
+* **Confirmado**;
+* **Em Espera**;
+* **Atendido**;
+* **Cancelado**.
 
-O sistema deve permitir alterar o status do atendimento de acordo com o fluxo operacional definido pela clínica.
+O sistema deve permitir atualizar o status conforme o andamento do atendimento.
 
-Quando o paciente chegar à clínica e for identificado pela recepção, o sistema deve permitir que seu status seja alterado para **"Em Espera"**.
+Quando o paciente chegar à clínica, a recepção deve poder alterar seu status para **"Em Espera"**.
 
-O sistema deve permitir o início do atendimento quando o paciente estiver apto conforme o fluxo definido.
+O sistema deve registrar as alterações importantes de status.
 
-O sistema não deve permitir que um atendimento cancelado seja iniciado sem um novo processo de agendamento.
-
-O sistema deve registrar as alterações relevantes de status no histórico do atendimento.
+O sistema não deve permitir que uma consulta cancelada seja iniciada como atendimento.
 
 ---
 
@@ -618,326 +503,313 @@ O sistema deve registrar as alterações relevantes de status no histórico do a
 
 **Prioridade: Média**
 
-Após o encerramento do atendimento, o sistema deve permitir disparar automaticamente uma pesquisa de satisfação.
+Após a conclusão do atendimento, o sistema deve permitir o envio de uma pesquisa de satisfação.
 
-O sistema deve associar a pesquisa ao atendimento concluído.
+A pesquisa deve estar relacionada ao atendimento realizado.
 
 O sistema deve registrar as respostas recebidas.
 
-O sistema deve permitir utilizar os resultados para cálculo dos indicadores de satisfação.
+As informações obtidas devem poder ser utilizadas nos indicadores de satisfação.
 
-O sistema não deve enviar pesquisa de satisfação para consultas canceladas ou que não tenham sido concluídas.
+O sistema não deve enviar pesquisas para consultas canceladas.
 
 ---
 
 # 7. Resumo dos Requisitos Funcionais
 
-| Código | Nome | Prioridade |
-|---|---|---|
-| RF01 | Gerenciamento de Pacientes | Alta |
-| RF02 | Gerenciamento de Médicos e Especialidades | Alta |
-| RF03 | Consulta de Horários Disponíveis | Alta |
-| RF04 | Agendamento de Consultas | Muito Alta |
-| RF05 | Cancelamento e Reagendamento | Muito Alta |
-| RF06 | Liberação Automática de Horários | Muito Alta |
-| RF07 | Lembretes Automáticos | Muito Alta |
-| RF08 | Gerenciamento da Agenda pelo Médico | Alta |
-| RF09 | Prontuário Eletrônico | Alta |
-| RF10 | Fila de Espera | Alta |
-| RF11 | Avisos sobre Alterações da Agenda | Alta |
-| RF12 | Dashboard Gerencial | Média |
-| RF13 | Autoatendimento | Alta |
-| RF14 | Controle de Status | Muito Alta |
-| RF15 | Pesquisa de Satisfação | Média |
+| Código | Requisito                           | Prioridade |
+| ------ | ----------------------------------- | ---------- |
+| RF01   | Gerenciamento de Pacientes          | Alta       |
+| RF02   | Gerenciamento de Médicos e Escalas  | Alta       |
+| RF03   | Consulta de Horários Disponíveis    | Alta       |
+| RF04   | Agendamento de Consultas            | Muito Alta |
+| RF05   | Cancelamento e Reagendamento        | Muito Alta |
+| RF06   | Liberação Automática de Horários    | Muito Alta |
+| RF07   | Lembretes Automáticos               | Muito Alta |
+| RF08   | Gerenciamento da Agenda pelo Médico | Alta       |
+| RF09   | Prontuário Eletrônico               | Alta       |
+| RF10   | Fila de Espera                      | Alta       |
+| RF11   | Avisos sobre Alterações na Agenda   | Alta       |
+| RF12   | Dashboard de Indicadores            | Média      |
+| RF13   | Autoatendimento                     | Alta       |
+| RF14   | Controle do Status do Atendimento   | Muito Alta |
+| RF15   | Pesquisa de Satisfação              | Média      |
 
 ---
 
 # 8. Requisitos Não Funcionais
 
-Os requisitos não funcionais definem as características de qualidade que o sistema deve possuir.
+Os requisitos não funcionais definem características relacionadas à qualidade do sistema.
 
-Eles não descrevem diretamente uma funcionalidade de negócio, mas estabelecem condições relacionadas ao desempenho, segurança, disponibilidade, confiabilidade, privacidade, compatibilidade e usabilidade.
+Eles ajudam a estabelecer como o sistema deve se comportar em relação a desempenho, segurança, disponibilidade e facilidade de uso.
 
 ---
 
-## RNF01 — Tempo de Resposta da Busca
+## RNF01 — Desempenho da Busca
 
-**Categoria:** Desempenho
+**Categoria: Desempenho**
 
-O sistema deve apresentar o resultado da busca por horários disponíveis em até 2 segundos em condições normais de operação.
+O sistema deve apresentar os resultados da busca por horários disponíveis em até 2 segundos em condições normais de utilização.
 
 ---
 
 ## RNF02 — Segurança da Comunicação
 
-**Categoria:** Segurança
+**Categoria: Segurança**
 
-O sistema deve utilizar comunicação segura para a transmissão de dados.
+Os dados transmitidos entre o usuário e o sistema devem utilizar uma conexão segura.
 
-O sistema deve utilizar HTTPS/TLS nas comunicações realizadas entre os usuários e a aplicação.
+O sistema deve utilizar HTTPS/TLS para a comunicação entre a aplicação e seus usuários.
 
 O sistema não deve transmitir informações sensíveis por conexões não seguras.
 
 ---
 
-## RNF03 — Eficiência da Operação de Agendamento
+## RNF03 — Facilidade de Agendamento
 
-**Categoria:** Usabilidade
+**Categoria: Usabilidade**
 
-A interface utilizada pela recepção deve ser projetada para reduzir o número de etapas necessárias para realizar um agendamento.
+A interface da recepção deve ser simples e objetiva.
 
-Após a seleção do paciente, do profissional e do horário, o processo de confirmação deve exigir o menor número possível de ações adicionais.
+O processo de agendamento deve exigir o menor número possível de etapas.
 
-A meta inicial da interface é permitir a conclusão da operação principal de agendamento em até três interações principais após a definição das informações necessárias.
+Depois que as informações principais estiverem definidas, a confirmação do agendamento deve ocorrer de forma rápida.
+
+A meta do projeto é permitir a conclusão da operação principal de agendamento em até três ações principais.
 
 ---
 
 ## RNF04 — Disponibilidade
 
-**Categoria:** Disponibilidade
+**Categoria: Disponibilidade**
 
-O sistema deve manter uma disponibilidade mensal mínima de 99,5%.
+O sistema deve manter uma disponibilidade mínima de 99,5% ao mês.
 
-A indisponibilidade deve ser monitorada para permitir o acompanhamento do indicador de uptime.
+A disponibilidade deve ser monitorada para permitir o acompanhamento do indicador de uptime.
 
 ---
 
 ## RNF05 — Backup
 
-**Categoria:** Confiabilidade
+**Categoria: Confiabilidade**
 
-O sistema deve realizar rotinas automatizadas diárias de backup do banco de dados.
+O sistema deve realizar backups automatizados do banco de dados diariamente.
 
-O sistema deve manter mecanismos que permitam a recuperação dos dados conforme as políticas técnicas da organização.
+Deve existir um processo que permita recuperar os dados quando necessário.
 
 ---
 
 ## RNF06 — Privacidade
 
-**Categoria:** Privacidade
+**Categoria: Privacidade**
 
-O tratamento dos dados pessoais deve respeitar as diretrizes aplicáveis de proteção de dados.
+O tratamento dos dados pessoais deve respeitar as regras aplicáveis de proteção de dados.
 
-O sistema deve limitar o acesso às informações de acordo com as permissões dos usuários.
+O acesso às informações deve ser controlado de acordo com as permissões de cada usuário.
 
 ---
 
 ## RNF07 — Acessos Simultâneos
 
-**Categoria:** Desempenho
+**Categoria: Desempenho**
 
-O sistema deve suportar no mínimo 50 acessos simultâneos sem degradação significativa das funcionalidades essenciais.
+O sistema deve suportar pelo menos 50 acessos simultâneos.
+
+Durante esse período, as funcionalidades principais não devem apresentar perda significativa de desempenho.
 
 ---
 
 ## RNF08 — Autenticação em Duas Etapas
 
-**Categoria:** Segurança
+**Categoria: Segurança**
 
-O sistema deve exigir autenticação em duas etapas para os perfis definidos como sensíveis, incluindo médicos e gerentes.
+Médicos e gerentes devem utilizar autenticação em duas etapas quando acessarem o sistema.
 
-O sistema não deve permitir o acesso desses perfis apenas com uma senha quando a política de autenticação em duas etapas estiver ativa.
+O sistema não deve permitir que esses perfis acessem funcionalidades sensíveis apenas com senha quando a autenticação em duas etapas estiver ativa.
 
 ---
 
 ## RNF09 — Compatibilidade
 
-**Categoria:** Compatibilidade
+**Categoria: Compatibilidade**
 
-A aplicação web deve ser compatível com os principais navegadores definidos no projeto:
+A aplicação web deve funcionar nos principais navegadores utilizados atualmente:
 
-- Google Chrome;
-- Mozilla Firefox;
-- Microsoft Edge;
-- Safari.
+* Google Chrome;
+* Mozilla Firefox;
+* Microsoft Edge;
+* Safari.
 
-A aplicação deve manter suas funcionalidades essenciais nos navegadores suportados.
+As funcionalidades principais devem continuar disponíveis nos navegadores suportados.
 
 ---
 
 ## RNF10 — Responsividade
 
-**Categoria:** Usabilidade
+**Categoria: Usabilidade**
 
-A interface deve ser responsiva e adaptada para utilização em:
+A interface deve se adaptar a diferentes tamanhos de tela.
 
-- Computadores;
-- Smartphones;
-- Tablets.
+O sistema deve permitir a utilização das funcionalidades principais em:
 
-O sistema não deve exigir o uso exclusivo de um computador para acesso às funcionalidades essenciais.
+* Computadores;
+* Smartphones;
+* Tablets.
 
 ---
 
 # 9. Indicadores para Acompanhar o Processo
 
+Os indicadores permitem acompanhar se o sistema está realmente ajudando a resolver os problemas identificados no início do projeto.
+
+---
+
 ## 9.1 Taxa de No-Show
 
-A taxa de no-show mede o percentual de pacientes que não comparecem à consulta sem realizar um cancelamento ou aviso prévio.
+Representa o percentual de pacientes que não comparecem à consulta sem realizar o cancelamento.
 
-### Objetivo
+Esse indicador ajuda a avaliar a quantidade de faltas e a eficiência dos lembretes automáticos.
 
-Avaliar a quantidade de faltas e a eficiência das estratégias de comunicação e lembrete.
+**Fórmula:**
 
-### Fórmula
-
-**Taxa de No-Show = (Quantidade de pacientes que faltaram / Quantidade total de consultas agendadas) × 100**
+> Taxa de No-Show = (Quantidade de faltas / Total de consultas agendadas) × 100
 
 ---
 
 ## 9.2 Taxa de Ocupação da Agenda
 
-Mede o percentual de horários disponíveis que estão efetivamente preenchidos.
+Mostra a quantidade de horários preenchidos em relação ao total de horários disponíveis.
 
-### Objetivo
+Esse indicador permite avaliar se a capacidade de atendimento da clínica está sendo bem aproveitada.
 
-Avaliar o aproveitamento da capacidade de atendimento da clínica.
+**Fórmula:**
 
-### Fórmula
-
-**Taxa de Ocupação = (Horários ocupados / Total de horários disponíveis) × 100**
+> Taxa de Ocupação = (Horários ocupados / Total de horários disponíveis) × 100
 
 ---
 
 ## 9.3 Tempo Médio de Reocupação de Vaga
 
-Mede o tempo necessário para que um horário cancelado seja ocupado novamente.
+Mede quanto tempo um horário cancelado demora para ser ocupado novamente.
 
-### Objetivo
-
-Avaliar a eficiência da fila de espera e do processo de reocupação.
-
-Quanto menor o tempo, maior tende a ser a eficiência do processo.
+Quanto menor for esse tempo, mais eficiente tende a ser o processo de fila de espera e reaproveitamento da agenda.
 
 ---
 
 ## 9.4 Taxa de Conversão da Lista de Prioridade
 
-Mede o percentual de horários recuperados e preenchidos por meio da lista de prioridade.
+Mostra o percentual de horários que foram recuperados e preenchidos utilizando a lista de prioridade ou fila de espera.
 
-### Objetivo
-
-Avaliar a eficiência da estratégia de recuperação de horários que poderiam permanecer ociosos.
+Esse indicador ajuda a verificar se o processo de reocupação está funcionando.
 
 ---
 
 ## 9.5 Tempo Médio de Atendimento na Recepção
 
-Mede o tempo gasto pela recepção para identificar o paciente e encaminhá-lo para o fluxo de atendimento.
+Mede o tempo necessário para realizar o processo inicial do paciente na recepção.
 
-### Objetivo
-
-Avaliar a eficiência do processo operacional da recepção.
+Pode envolver a identificação do paciente, consulta do agendamento e alteração do status para **"Em Espera"**.
 
 ---
 
 ## 9.6 Tempo Médio de Espera do Paciente
 
-Mede o período entre o momento em que o paciente é registrado como **"Em Espera"** e o início do atendimento.
+Mede o tempo que o paciente permanece aguardando depois de ser registrado como **"Em Espera"** até o início do atendimento.
 
-### Objetivo
-
-Avaliar a qualidade da experiência do paciente e a pontualidade da operação.
+Esse indicador está diretamente relacionado à experiência do paciente.
 
 ---
 
 ## 9.7 Índice de Retrabalho no Cadastro
 
-Mede a quantidade de situações em que os dados precisam ser cadastrados novamente ou corrigidos.
+Acompanha situações em que os dados precisam ser cadastrados novamente ou corrigidos.
 
-### Objetivo
-
-Avaliar se o sistema centralizado está reduzindo atividades repetitivas e duplicidades.
+O objetivo é verificar se a centralização das informações está reduzindo o trabalho repetitivo.
 
 ---
 
 ## 9.8 Taxa de Resposta aos Lembretes
 
-Mede o percentual de pacientes que interagem com os lembretes enviados.
+Mostra o percentual de pacientes que respondem aos lembretes enviados.
 
-### Fórmula
+Esse indicador pode ajudar a avaliar o nível de interação dos pacientes com os canais de comunicação utilizados.
 
-**Taxa de Resposta = (Quantidade de pacientes que responderam / Quantidade de pacientes que receberam lembrete) × 100**
+**Fórmula:**
+
+> Taxa de Resposta = (Pacientes que responderam / Pacientes que receberam o lembrete) × 100
 
 ---
 
 ## 9.9 Índice de Satisfação do Paciente
 
-Mede o resultado das pesquisas de satisfação realizadas após os atendimentos.
+Representa os resultados obtidos nas pesquisas de satisfação.
 
-### Objetivo
-
-Avaliar a percepção do paciente sobre o serviço prestado.
+Os dados podem ser utilizados para identificar pontos positivos e problemas percebidos pelos pacientes.
 
 ---
 
 ## 9.10 Índice de Disponibilidade
 
-Mede o percentual de tempo em que o sistema permaneceu disponível.
+Mostra o percentual de tempo em que o sistema permaneceu disponível.
 
-### Objetivo
-
-Verificar o cumprimento da meta de disponibilidade mínima estabelecida no RNF04.
+Esse indicador permite acompanhar a meta de disponibilidade definida nos requisitos não funcionais.
 
 ---
 
 ## 9.11 Tempo de Resposta de Busca
 
-Mede o tempo necessário para retornar os resultados da consulta de horários disponíveis.
+Mede o tempo necessário para o sistema retornar os horários disponíveis.
 
-### Objetivo
-
-Verificar o cumprimento do requisito de desempenho definido para o sistema.
+O objetivo é verificar se o sistema está cumprindo a meta de resposta definida no RNF01.
 
 ---
 
-# 10. Priorização dos Principais Requisitos
+# 10. Principais Requisitos e Priorização
+
+A priorização foi feita considerando principalmente o impacto de cada requisito nos problemas identificados.
+
+---
 
 ## 1º — Agendamento e Controle da Agenda
 
 **RF03, RF04, RF05, RF06 e RF08**
 
-Esta é a maior prioridade do sistema.
+Essa é a principal parte do sistema.
 
-Esses requisitos resolvem diretamente os principais problemas identificados no processo atual:
+Os maiores problemas encontrados estão relacionados a:
 
-- Conflitos de horários;
-- Dupla marcação;
-- Dificuldade para consultar horários;
-- Problemas com cancelamentos;
-- Desorganização da agenda médica.
+* Conflitos de horários;
+* Agendamentos incorretos;
+* Cancelamentos;
+* Horários bloqueados;
+* Falta de atualização da agenda.
 
-O RF04 é especialmente importante porque representa o processo principal do negócio: realizar o agendamento de uma consulta sem gerar conflitos.
+Por esse motivo, os requisitos relacionados ao agendamento possuem a maior prioridade.
 
 ---
 
-## 2º — Cadastro e Integridade dos Dados
+## 2º — Cadastro e Organização das Informações
 
 **RF01 e RF02**
 
-Esses requisitos são fundamentais para garantir que o sistema trabalhe com informações organizadas e confiáveis.
+Esses requisitos são importantes porque permitem centralizar as informações da clínica.
 
-O cadastro centralizado reduz:
+Eles ajudam a reduzir:
 
-- Retrabalho;
-- Duplicidade;
-- Informações desatualizadas;
-- Erros de identificação.
+* Retrabalho;
+* Duplicidade;
+* Dados desatualizados;
+* Erros durante o atendimento.
 
 ---
 
-## 3º — Comunicação e Redução de Faltas
+## 3º — Comunicação com os Pacientes
 
 **RF07 e RF11**
 
-Esses requisitos são responsáveis pela comunicação automática com os pacientes.
+A comunicação automática pode ajudar a reduzir faltas e evitar problemas quando ocorrerem mudanças na agenda.
 
-Eles ajudam a:
-
-- Reduzir no-show;
-- Melhorar a confirmação das consultas;
-- Informar alterações na agenda;
-- Melhorar a experiência do paciente.
+Os lembretes e avisos tornam o processo mais rápido e reduzem a dependência de contatos realizados manualmente pela recepção.
 
 ---
 
@@ -945,19 +817,21 @@ Eles ajudam a:
 
 **RF09 e RF14**
 
-Esses requisitos garantem que o sistema acompanhe o paciente durante o processo de atendimento.
+Esses requisitos ajudam a acompanhar o paciente durante o processo de atendimento.
 
-O sistema passa a controlar o fluxo desde a chegada do paciente até a conclusão da consulta.
+O controle de status permite saber em qual etapa o paciente está.
+
+O prontuário permite registrar informações relacionadas às consultas, respeitando as permissões de acesso.
 
 ---
 
-## 5º — Fila de Espera e Reocupação
+## 5º — Fila de Espera
 
 **RF10**
 
-A fila de espera permite aproveitar horários que seriam perdidos por cancelamentos ou desistências.
+A fila de espera é importante para evitar que horários cancelados permaneçam vazios.
 
-Esse requisito possui grande potencial de melhoria da ocupação da agenda.
+Ela pode ajudar a melhorar a ocupação da agenda e aproveitar melhor os horários disponíveis.
 
 ---
 
@@ -965,24 +839,19 @@ Esse requisito possui grande potencial de melhoria da ocupação da agenda.
 
 **RF13**
 
-O autoatendimento amplia os canais disponíveis para o paciente.
+O autoatendimento permite que algumas atividades sejam realizadas sem depender exclusivamente da recepção.
 
-Ele permite que determinados processos sejam realizados sem depender exclusivamente da recepção.
+O paciente pode consultar horários e realizar agendamentos pelos canais disponibilizados pela clínica.
 
 ---
 
-## 7º — Gestão e Indicadores
+## 7º — Gestão
 
 **RF12**
 
-O dashboard permite acompanhar os resultados obtidos após a implantação do sistema.
+O dashboard não é responsável diretamente pelo agendamento ou atendimento, mas é importante para acompanhar os resultados.
 
-Por meio dos indicadores, a gestão pode identificar:
-
-- Problemas recorrentes;
-- Gargalos;
-- Melhorias necessárias;
-- Resultados das mudanças implementadas.
+Os gestores podem utilizar os indicadores para identificar problemas e tomar decisões.
 
 ---
 
@@ -990,50 +859,55 @@ Por meio dos indicadores, a gestão pode identificar:
 
 **RF15**
 
-A pesquisa de satisfação permite que o paciente participe do processo de melhoria contínua.
+A pesquisa de satisfação permite acompanhar a opinião dos pacientes depois do atendimento.
 
-As informações coletadas podem ser utilizadas para identificar pontos positivos e problemas na experiência de atendimento.
+Os resultados podem ser utilizados para identificar melhorias futuras.
 
 ---
 
 # 11. Melhorias Futuras
 
-Após a implementação das funcionalidades principais, o sistema pode ser ampliado.
+Depois da implantação das funcionalidades principais, o sistema poderá receber novos recursos.
 
 Algumas possibilidades são:
 
-- Aprimoramento da fila de espera;
-- Integração com novos canais de comunicação;
-- Novos dashboards gerenciais;
-- Integração com outros sistemas da clínica;
-- Aplicativo móvel dedicado;
-- Análises preditivas para identificação de risco de no-show;
-- Sugestão automática de horários;
-- Automação de processos administrativos;
-- Integração com sistemas financeiros;
-- Ampliação dos recursos de autoatendimento.
+* Melhorias na fila de espera;
+* Novos canais de comunicação;
+* Integração com outros sistemas da clínica;
+* Aplicativo móvel próprio;
+* Sugestões automáticas de horários;
+* Análise de padrões de faltas;
+* Automação de processos administrativos;
+* Integração com processos financeiros;
+* Ampliação dos dashboards;
+* Novos recursos de autoatendimento.
+
+Essas melhorias não precisam fazer parte da primeira versão do sistema, mas podem ser consideradas conforme a necessidade da clínica.
 
 ---
 
 # 12. Conclusão
 
-A proposta do sistema é centralizar e organizar os processos relacionados ao agendamento, atendimento e gestão da clínica.
+O principal objetivo deste projeto é melhorar a organização dos processos da clínica por meio de um sistema integrado.
 
-Os principais problemas identificados no cenário atual estão relacionados à descentralização das informações, utilização de processos manuais, falta de integração e ausência de mecanismos automáticos de comunicação.
+Os problemas identificados estão relacionados principalmente à falta de centralização das informações, à utilização de processos manuais e à dificuldade de comunicação entre os envolvidos.
 
-A implantação do sistema deve permitir:
+Com a implantação do sistema, espera-se:
 
-- Reduzir conflitos de horários;
-- Evitar duplicidade de informações;
-- Diminuir o retrabalho;
-- Melhorar a comunicação com os pacientes;
-- Automatizar lembretes;
-- Controlar cancelamentos;
-- Reaproveitar horários disponíveis;
-- Organizar o fluxo de atendimento;
-- Proteger informações sensíveis;
-- Fornecer indicadores para apoio à gestão.
+* Reduzir conflitos de horários;
+* Evitar cadastros duplicados;
+* Diminuir o retrabalho;
+* Facilitar a atualização dos dados;
+* Melhorar a comunicação com os pacientes;
+* Reduzir faltas;
+* Melhorar o controle de cancelamentos;
+* Reaproveitar horários disponíveis;
+* Organizar o fluxo de atendimento;
+* Proteger informações sensíveis;
+* Acompanhar os resultados por meio de indicadores.
 
-Dessa forma, o sistema não deve apenas substituir processos manuais. Ele deve organizar e integrar as informações da clínica, criando uma base para melhorar a operação, reduzir erros e acompanhar os resultados de forma contínua.
+O sistema não deve apenas substituir planilhas ou automatizar tarefas isoladas. A proposta é integrar os principais processos da clínica e permitir que as informações estejam organizadas, atualizadas e disponíveis para quem realmente precisa utilizá-las.
+
+Dessa forma, a clínica poderá ter um processo de agendamento e atendimento mais organizado, com menos erros e maior facilidade para acompanhar os resultados.
 
 
