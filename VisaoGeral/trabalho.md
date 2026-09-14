@@ -534,7 +534,7 @@ O sistema não deve enviar pesquisas para consultas canceladas.
 | RF14   | Controle do Status do Atendimento   | Muito Alta |
 | RF15   | Pesquisa de Satisfação              | Média      |
 
-*Observação: a coluna acima mantém a prioridade qualitativa original (Alta/Média/Muito Alta). A priorização MoSCoW revisada, com justificativa por item, está na Seção 10.*
+*Observação: a coluna acima mantém a prioridade qualitativa original (Alta/Média/Muito Alta). A priorização MoSCoW revisada, com justificativa por item, está na Seção 11.*
 
 ---
 
@@ -676,13 +676,46 @@ O sistema deve permitir a utilização das funcionalidades principais em:
 
 ---
 
-## 9. Indicadores para Acompanhar o Processo
+## 9. Requisitos de Qualidade (Estudo de Caso)
+
+### 9.1 Do Conceito ao Requisito Mensurável (vago vs. mensurável)
+
+Antes de aplicar o modelo, vale mostrar a diferença entre um requisito vago e a versão mensurável usada no projeto:
+
+| Característica | Inadequado (vago) | Melhorado (mensurável — usado no projeto) |
+|---|---|---|
+| Eficiência de desempenho | "O sistema deve ser rápido para buscar horários." | RNF01: "O sistema deverá retornar os horários disponíveis em até 2 segundos, para 95% das requisições, considerando até 500 usuários simultâneos." |
+| Capacidade de Interação | "O agendamento deve ser fácil de usar." | RNF03: "O sistema deverá permitir concluir o agendamento em até 3 ações principais." |
+| Segurança | "O sistema deve ser seguro." | RNF02/RNF08: "O sistema deverá utilizar HTTPS/TLS em toda comunicação e exigir autenticação em duas etapas para médicos e gerentes." |
+| Confiabilidade | "O sistema deve estar sempre disponível." | RNF04: "O sistema deverá manter disponibilidade mínima de 99,5% ao mês, monitorada continuamente." |
+
+### 9.2 Aplicação ao Projeto
+
+Seguindo o modelo trabalhado em aula (identificar característica → justificar → formular requisito → definir critério de aceitação → indicar como testar), aplicado às situações reais do projeto da clínica:
+
+| Nº | Situação / Problema | Característica ISO/IEC 25010 | Justificativa | Requisito Formulado | Critério de Aceitação | Como Testar |
+|---|---|---|---|---|---|---|
+| 1 | Busca de horários lenta prejudica o atendimento na recepção | Eficiência de desempenho | O tempo de resposta afeta diretamente o fluxo de atendimento e a adoção do sistema pela equipe | O sistema deverá retornar os horários disponíveis em até 2 segundos, para 95% das requisições, considerando até 500 usuários simultâneos | 95% das buscas respondem em ≤2s sob carga de até 500 usuários simultâneos | Teste de carga (ex.: k6/JMeter) simulando 500 usuários, medindo o percentil 95 do tempo de resposta |
+| 2 | Dados de pacientes trafegando sem proteção entre app e servidor | Segurança | Dados de saúde são sensíveis e protegidos por lei (LGPD); vazamento gera risco legal e de confiança | O sistema deverá criptografar toda a comunicação entre cliente e servidor utilizando TLS 1.2 ou superior | 100% das rotas usando HTTPS; nenhuma rota aceita conexão HTTP não criptografada | Varredura de segurança (ex.: OWASP ZAP) e verificação de certificado válido em todas as rotas |
+| 3 | Fluxo de agendamento longo e com muitas etapas na recepção | Capacidade de Interação | Processos manuais e telas complexas aumentam o tempo de atendimento e a chance de erro | O sistema deverá permitir concluir o agendamento em até 3 ações principais | 90% dos recepcionistas completam o fluxo em ≤3 ações e ≤2 minutos | Teste de usabilidade moderado com recepcionistas reais, medindo etapas e tempo de execução |
+| 4 | Sistema indisponível impede o atendimento aos pacientes | Confiabilidade | Em saúde, indisponibilidade impede diretamente o atendimento; risco operacional alto | O sistema deverá manter disponibilidade mínima de 99,5% ao mês, monitorada continuamente | Uptime mensal ≥99,5%, medido por ferramenta de monitoramento | Acompanhamento contínuo (ex.: status page/logs) com relatório mensal de uptime |
+| 5 | Perda de dados de pacientes em caso de falha do sistema | Confiabilidade | Perda de histórico clínico é inaceitável no domínio de saúde | O sistema deverá realizar backup diário automatizado do banco de dados, com restauração testada mensalmente | Backup executado diariamente sem falha; restauração completa validada em teste mensal | Simulação de restauração de backup em ambiente de teste, validando integridade dos dados |
+| 6 | Usuário sem permissão acessa prontuário de outro paciente | Segurança | Viola a RN08 e a legislação de proteção de dados; risco de exposição de dados clínicos | O sistema não deverá permitir que usuários sem autorização visualizem ou alterem informações médicas restritas | Tentativa de acesso não autorizado é bloqueada e registrada em log | Teste de controle de acesso tentando abrir o prontuário com um perfil sem permissão |
+| 7 | Paciente tenta usar o autoatendimento pelo celular e a tela não funciona bem | Capacidade de Interação | O autoatendimento é majoritariamente acessado fora da clínica, pelo celular do paciente | A interface deverá se adaptar a diferentes tamanhos de tela, mantendo as funcionalidades principais utilizáveis em smartphones, tablets e desktops | Funcionalidades principais operacionais em resoluções de 360px a 1920px | Teste manual/automatizado em diferentes dispositivos e resoluções (emuladores + dispositivos reais) |
+| 8 | Pico de acessos no horário de abertura derruba o desempenho do sistema | Eficiência de desempenho | O início do expediente concentra recepcionistas e pacientes acessando simultaneamente | O sistema deverá suportar pelo menos 50 acessos simultâneos sem perda significativa de desempenho | Tempo de resposta não aumenta de forma perceptível sob 50 acessos simultâneos | Teste de carga simulando 50 usuários simultâneos executando as funcionalidades principais |
+| 9 | Computadores da recepção usam navegadores diferentes entre si | Compatibilidade | A aplicação precisa funcionar de forma confiável independentemente do navegador já instalado na clínica | A aplicação deverá funcionar corretamente em Chrome, Firefox, Edge e Safari, mantendo as funcionalidades principais operacionais | RFs principais (busca, agendamento, cancelamento) funcionam sem erros nos 4 navegadores | Testes cross-browser (ex.: BrowserStack) rodando os fluxos principais em cada navegador |
+
+---
+
+---
+
+## 10. Indicadores para Acompanhar o Processo
 
 Os indicadores permitem acompanhar se o sistema está realmente ajudando a resolver os problemas identificados no início do projeto.
 
 ---
 
-### 9.1 Taxa de No-Show
+### 10.1 Taxa de No-Show
 
 Representa o percentual de pacientes que não comparecem à consulta sem realizar o cancelamento.
 
@@ -694,7 +727,7 @@ Esse indicador ajuda a avaliar a quantidade de faltas e a eficiência dos lembre
 
 ---
 
-### 9.2 Taxa de Ocupação da Agenda
+### 10.2 Taxa de Ocupação da Agenda
 
 Mostra a quantidade de horários preenchidos em relação ao total de horários disponíveis.
 
@@ -706,7 +739,7 @@ Esse indicador permite avaliar se a capacidade de atendimento da clínica está 
 
 ---
 
-### 9.3 Tempo Médio de Reocupação de Vaga
+### 10.3 Tempo Médio de Reocupação de Vaga
 
 Mede quanto tempo um horário cancelado demora para ser ocupado novamente.
 
@@ -714,7 +747,7 @@ Quanto menor for esse tempo, mais eficiente tende a ser o processo de fila de es
 
 ---
 
-### 9.4 Taxa de Conversão da Lista de Prioridade
+### 10.4 Taxa de Conversão da Lista de Prioridade
 
 Mostra o percentual de horários que foram recuperados e preenchidos utilizando a lista de prioridade ou fila de espera.
 
@@ -722,7 +755,7 @@ Esse indicador ajuda a verificar se o processo de reocupação está funcionando
 
 ---
 
-### 9.5 Tempo Médio de Atendimento na Recepção
+### 10.5 Tempo Médio de Atendimento na Recepção
 
 Mede o tempo necessário para realizar o processo inicial do paciente na recepção.
 
@@ -730,7 +763,7 @@ Pode envolver a identificação do paciente, consulta do agendamento e alteraç�
 
 ---
 
-### 9.6 Tempo Médio de Espera do Paciente
+### 10.6 Tempo Médio de Espera do Paciente
 
 Mede o tempo que o paciente permanece aguardando depois de ser registrado como **"Em Espera"** até o início do atendimento.
 
@@ -738,7 +771,7 @@ Esse indicador está diretamente relacionado à experiência do paciente.
 
 ---
 
-### 9.7 Índice de Retrabalho no Cadastro
+### 10.7 Índice de Retrabalho no Cadastro
 
 Acompanha situações em que os dados precisam ser cadastrados novamente ou corrigidos.
 
@@ -746,7 +779,7 @@ O objetivo é verificar se a centralização das informações está reduzindo o
 
 ---
 
-### 9.8 Taxa de Resposta aos Lembretes
+### 10.8 Taxa de Resposta aos Lembretes
 
 Mostra o percentual de pacientes que respondem aos lembretes enviados.
 
@@ -758,7 +791,7 @@ Esse indicador pode ajudar a avaliar o nível de interação dos pacientes com o
 
 ---
 
-### 9.9 Índice de Satisfação do Paciente
+### 10.9 Índice de Satisfação do Paciente
 
 Representa os resultados obtidos nas pesquisas de satisfação.
 
@@ -766,7 +799,7 @@ Os dados podem ser utilizados para identificar pontos positivos e problemas perc
 
 ---
 
-### 9.10 Índice de Disponibilidade
+### 10.10 Índice de Disponibilidade
 
 Mostra o percentual de tempo em que o sistema permaneceu disponível.
 
@@ -774,7 +807,7 @@ Esse indicador permite acompanhar a meta de disponibilidade definida nos requisi
 
 ---
 
-### 9.11 Tempo de Resposta de Busca
+### 10.11 Tempo de Resposta de Busca
 
 Mede o tempo necessário para o sistema retornar os horários disponíveis.
 
@@ -782,11 +815,11 @@ O objetivo é verificar se o sistema está cumprindo a meta de resposta definida
 
 ---
 
-## 10. Priorização MoSCoW
+## 11. Priorização MoSCoW
 
 A priorização foi feita considerando principalmente se o sistema consegue ser lançado e resolver o problema central do negócio sem cada requisito. Cada item recebeu uma letra (**M**ust, **S**hould, **C**ould, **W**on't) e uma justificativa própria.
 
-### 10.1 Requisitos Funcionais
+### 11.1 Requisitos Funcionais
 
 | Código | Requisito | MoSCoW | Justificativa |
 |---|---|---|---|
@@ -806,7 +839,7 @@ A priorização foi feita considerando principalmente se o sistema consegue ser 
 | RF14 | Controle do Status do Atendimento | **M** | Sem controle de status a recepção não sabe quem chegou/foi atendido — essencial no dia a dia |
 | RF15 | Pesquisa de Satisfação | **W** | Não afeta a operação nem resolve os problemas de negócio levantados nesta versão |
 
-### 10.2 Requisitos Não Funcionais
+### 11.2 Requisitos Não Funcionais
 
 | Código | Requisito | MoSCoW | Justificativa |
 |---|---|---|---|
@@ -821,7 +854,7 @@ A priorização foi feita considerando principalmente se o sistema consegue ser 
 | RNF09 | Compatibilidade multi-navegador | **S** | Importante para alcance, mas não bloqueia lançar com 1-2 navegadores prioritários |
 | RNF10 | Responsividade | **S** | Melhora o acesso mobile, mas a recepção usa majoritariamente desktop |
 
-### 10.3 Revisão do "Must Have" (correção da inflação)
+### 11.3 Revisão do "Must Have" (correção da inflação)
 
 Na versão anterior da priorização, 13 itens estavam classificados como Alta/Muito Alta — uma quantidade inflada para um "Must". Após revisar item a item com o critério *"o sistema pode ser lançado sem isso?"*:
 
@@ -834,7 +867,7 @@ O teste aplicado em cada item foi: *"se este requisito não existir na V1, o sis
 
 ---
 
-## 11. Análise de Conflitos de Qualidade (Trade-offs)
+## 12. Análise de Conflitos de Qualidade (Trade-offs)
 
 As características de qualidade não são independentes — priorizar uma pode prejudicar outra. Abaixo estão os principais trade-offs identificados no projeto, com a decisão tomada e a justificativa (seguindo o critério da aula: contexto de uso, risco, perfil dos usuários, regras de negócio e consequência de falha).
 
@@ -850,7 +883,7 @@ Liberar e reocupar horários automaticamente em tempo real, sob alta concorrênc
 Integrar com canais externos amplia o alcance da comunicação, mas expõe dados do paciente a provedores terceiros.
 *Decisão:* manter a integração, mas restringir o conteúdo enviado ao mínimo necessário (nome, data e horário), sem dados clínicos — mantém a automação sem ampliar o risco.
 
-**4. Flexibilidade (visão futura da Seção 12 — múltiplas unidades, integração financeira) vs. Manutenibilidade**
+**4. Flexibilidade (visão futura da Seção 13 — múltiplas unidades, integração financeira) vs. Manutenibilidade**
 Projetar já pensando em expansão futura aumenta a complexidade da arquitetura desde o início.
 *Decisão:* adotar arquitetura modular simples na V1 (Manutenibilidade priorizada) e adiar a generalização para quando a expansão for confirmada — evita over-engineering prematuro.
 
@@ -864,7 +897,7 @@ Alta disponibilidade e backups redundantes têm custo de infraestrutura maior.
 
 ---
 
-## 12. Melhorias Futuras
+## 13. Melhorias Futuras
 
 Depois da implantação das funcionalidades principais, o sistema poderá receber novos recursos.
 
@@ -885,7 +918,7 @@ Essas melhorias não precisam fazer parte da primeira versão do sistema, mas po
 
 ---
 
-## 13. Conclusão
+## 14. Conclusão
 
 O principal objetivo deste projeto é melhorar a organização dos processos da clínica por meio de um sistema integrado.
 
@@ -908,26 +941,6 @@ Com a implantação do sistema, espera-se:
 O sistema não deve apenas substituir planilhas ou automatizar tarefas isoladas. A proposta é integrar os principais processos da clínica e permitir que as informações estejam organizadas, atualizadas e disponíveis para quem realmente precisa utilizá-las.
 
 Dessa forma, a clínica poderá ter um processo de agendamento e atendimento mais organizado, com menos erros e maior facilidade para acompanhar os resultados.
-
----
-
-## 14. Requisitos de Qualidade (Estudo de Caso)
-
-Seguindo o modelo trabalhado em aula (identificar característica → justificar → formular requisito → definir critério de aceitação → indicar como testar), aplicado às situações reais do projeto da clínica:
-
-| Nº | Situação / Problema | Característica ISO/IEC 25010 | Justificativa | Requisito Formulado | Critério de Aceitação | Como Testar |
-|---|---|---|---|---|---|---|
-| 1 | Busca de horários lenta prejudica o atendimento na recepção | Eficiência de desempenho | O tempo de resposta afeta diretamente o fluxo de atendimento e a adoção do sistema pela equipe | O sistema deverá retornar os horários disponíveis em até 2 segundos, para 95% das requisições, considerando até 500 usuários simultâneos | 95% das buscas respondem em ≤2s sob carga de até 500 usuários simultâneos | Teste de carga (ex.: k6/JMeter) simulando 500 usuários, medindo o percentil 95 do tempo de resposta |
-| 2 | Dados de pacientes trafegando sem proteção entre app e servidor | Segurança | Dados de saúde são sensíveis e protegidos por lei (LGPD); vazamento gera risco legal e de confiança | O sistema deverá criptografar toda a comunicação entre cliente e servidor utilizando TLS 1.2 ou superior | 100% das rotas usando HTTPS; nenhuma rota aceita conexão HTTP não criptografada | Varredura de segurança (ex.: OWASP ZAP) e verificação de certificado válido em todas as rotas |
-| 3 | Fluxo de agendamento longo e com muitas etapas na recepção | Capacidade de Interação | Processos manuais e telas complexas aumentam o tempo de atendimento e a chance de erro | O sistema deverá permitir concluir o agendamento em até 3 ações principais | 90% dos recepcionistas completam o fluxo em ≤3 ações e ≤2 minutos | Teste de usabilidade moderado com recepcionistas reais, medindo etapas e tempo de execução |
-| 4 | Sistema indisponível impede o atendimento aos pacientes | Confiabilidade | Em saúde, indisponibilidade impede diretamente o atendimento; risco operacional alto | O sistema deverá manter disponibilidade mínima de 99,5% ao mês, monitorada continuamente | Uptime mensal ≥99,5%, medido por ferramenta de monitoramento | Acompanhamento contínuo (ex.: status page/logs) com relatório mensal de uptime |
-| 5 | Perda de dados de pacientes em caso de falha do sistema | Confiabilidade | Perda de histórico clínico é inaceitável no domínio de saúde | O sistema deverá realizar backup diário automatizado do banco de dados, com restauração testada mensalmente | Backup executado diariamente sem falha; restauração completa validada em teste mensal | Simulação de restauração de backup em ambiente de teste, validando integridade dos dados |
-| 6 | Usuário sem permissão acessa prontuário de outro paciente | Segurança | Viola a RN08 e a legislação de proteção de dados; risco de exposição de dados clínicos | O sistema não deverá permitir que usuários sem autorização visualizem ou alterem informações médicas restritas | Tentativa de acesso não autorizado é bloqueada e registrada em log | Teste de controle de acesso tentando abrir o prontuário com um perfil sem permissão |
-| 7 | Paciente tenta usar o autoatendimento pelo celular e a tela não funciona bem | Capacidade de Interação | O autoatendimento é majoritariamente acessado fora da clínica, pelo celular do paciente | A interface deverá se adaptar a diferentes tamanhos de tela, mantendo as funcionalidades principais utilizáveis em smartphones, tablets e desktops | Funcionalidades principais operacionais em resoluções de 360px a 1920px | Teste manual/automatizado em diferentes dispositivos e resoluções (emuladores + dispositivos reais) |
-| 8 | Pico de acessos no horário de abertura derruba o desempenho do sistema | Eficiência de desempenho | O início do expediente concentra recepcionistas e pacientes acessando simultaneamente | O sistema deverá suportar pelo menos 50 acessos simultâneos sem perda significativa de desempenho | Tempo de resposta não aumenta de forma perceptível sob 50 acessos simultâneos | Teste de carga simulando 50 usuários simultâneos executando as funcionalidades principais |
-| 9 | Computadores da recepção usam navegadores diferentes entre si | Compatibilidade | A aplicação precisa funcionar de forma confiável independentemente do navegador já instalado na clínica | A aplicação deverá funcionar corretamente em Chrome, Firefox, Edge e Safari, mantendo as funcionalidades principais operacionais | RFs principais (busca, agendamento, cancelamento) funcionam sem erros nos 4 navegadores | Testes cross-browser (ex.: BrowserStack) rodando os fluxos principais em cada navegador |
-
----
 
 ## 15. Fontes
 
