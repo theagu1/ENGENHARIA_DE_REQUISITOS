@@ -1,5 +1,9 @@
 # Atividade — 18/08/2026
-# Sistema de Gestão para Clínica Médica
+# Sistema de Gestão para Clínica Médica — Escopo do MVP
+
+Este documento descreve o escopo da **primeira versão (MVP)** do sistema. Funcionalidades e requisitos que não são bloqueantes para o lançamento ficam documentados como **backlog**, com a justificativa da decisão (Seções 6.1, 8.1 e 11).
+
+---
 
 ## 1. Stakeholders
 
@@ -73,6 +77,8 @@ A clínica também enfrenta dificuldades na comunicação com os pacientes.
 
 Sem lembretes automáticos, o paciente pode esquecer a data ou o horário da consulta. Da mesma forma, quando ocorre uma alteração na agenda médica, pode ser difícil avisar todos os pacientes envolvidos.
 
+*Observação: a automação desse ponto (RF07 e RF11) está no backlog — ver Seção 6.1. Na primeira versão, a comunicação pode ser feita manualmente pela recepção.*
+
 ---
 
 ### 2.6 Dificuldade para controlar cancelamentos
@@ -80,6 +86,8 @@ Sem lembretes automáticos, o paciente pode esquecer a data ou o horário da con
 Quando uma consulta é cancelada, o horário pode ficar vazio até o final do dia.
 
 Sem uma fila de espera ou algum processo de reocupação, a clínica perde a oportunidade de utilizar aquele horário para atender outro paciente.
+
+*Observação: a fila de espera automatizada (RF10) está no backlog — ver Seção 6.1. O MVP já resolve a raiz do problema ao liberar o horário automaticamente (RF06).*
 
 ---
 
@@ -104,9 +112,7 @@ A principal proposta do sistema é justamente centralizar essas informações e 
 
 ## 4. Regras de Negócio
 
-As regras de negócio representam condições que devem ser respeitadas durante o funcionamento do sistema.
-
-Elas ajudam a garantir que os processos ocorram de acordo com as necessidades da clínica.
+### 4.1 Regras de Negócio do MVP
 
 ---
 
@@ -150,26 +156,6 @@ O horário não deve continuar aparecendo como ocupado após o cancelamento.
 
 ---
 
-### RN05 — Alteração da agenda médica
-
-Quando uma alteração na escala de um médico afetar pacientes já agendados, esses pacientes devem ser identificados.
-
-O sistema deve gerar uma notificação para informar os pacientes sobre a alteração.
-
-**Classificação:** Estudo de Caso — Mudanças de agenda.
-
----
-
-### RN06 — Lembretes de consulta
-
-Os pacientes devem receber lembretes automáticos antes de suas consultas.
-
-Os lembretes devem ser enviados com 24 horas e 2 horas de antecedência.
-
-**Classificação:** Estudo de Caso — Faltas.
-
----
-
 ### RN07 — Reutilização de dados
 
 Quando o paciente já possuir um cadastro válido, seus dados básicos devem ser reutilizados nos próximos agendamentos.
@@ -177,26 +163,6 @@ Quando o paciente já possuir um cadastro válido, seus dados básicos devem ser
 O paciente não deve precisar informar novamente informações que já estejam cadastradas e atualizadas.
 
 **Classificação:** Estudo de Caso — Retrabalho.
-
----
-
-### RN08 — Acesso ao prontuário
-
-As informações do prontuário devem ser acessadas apenas por usuários autorizados.
-
-Usuários sem permissão não devem visualizar ou alterar informações médicas restritas.
-
-**Classificação:** Segurança e privacidade.
-
----
-
-### RN09 — Prioridade de reocupação
-
-Caso um paciente não confirme sua consulta dentro do prazo definido pela clínica, o horário poderá ser identificado como prioridade para reocupação.
-
-O processo deve respeitar as regras operacionais definidas pela clínica.
-
-**Classificação:** Política operacional.
 
 ---
 
@@ -210,6 +176,17 @@ A consulta deve ser iniciada quando o paciente estiver identificado e com o stat
 
 ---
 
+### 4.2 Regras de Negócio para Fases Futuras
+
+| Código | Regra | Ligada a (backlog) |
+|---|---|---|
+| RN05 | Quando uma alteração na escala médica afetar pacientes já agendados, o sistema deve identificá-los e notificá-los. | RF11 — Avisos sobre Alterações na Agenda |
+| RN06 | Os pacientes devem receber lembretes automáticos com 24h e 2h de antecedência. | RF07 — Lembretes Automáticos |
+| RN08 | As informações do prontuário devem ser acessadas apenas por usuários autorizados. | RF09 — Prontuário Eletrônico |
+| RN09 | Se o paciente não confirmar a consulta no prazo, o horário pode ser priorizado para reocupação. | RF10 — Fila de Espera |
+
+---
+
 ## 5. Melhorias Propostas
 
 | Problema                   | Melhoria                                                       |
@@ -218,17 +195,15 @@ A consulta deve ser iniciada quando o paciente estiver identificado e com o stat
 | Retrabalho                 | Centralização das informações dos pacientes                    |
 | Duplicidade de dados       | Validação de CPF único no cadastro                             |
 | Dificuldade de atualização | Utilização de um banco de dados centralizado                   |
-| Falhas na comunicação      | Envio automático de lembretes e notificações                   |
-| Cancelamentos              | Liberação automática do horário e utilização de fila de espera |
-| Falta de acompanhamento    | Criação de dashboards e indicadores                            |
+| Falhas na comunicação      | Envio automático de lembretes e notificações *(backlog — RF07/RF11)* |
+| Cancelamentos              | Liberação automática do horário *(MVP)* + fila de espera *(backlog — RF10)* |
+| Falta de acompanhamento    | Indicadores acompanhados via relatório simples no MVP; dashboard completo fica no backlog *(RF12)* |
 
-A ideia principal é que as melhorias estejam diretamente relacionadas aos problemas encontrados.
-
-Por exemplo, a fila de espera foi proposta para resolver a dificuldade de reaproveitar horários cancelados. Da mesma forma, os lembretes automáticos foram incluídos para ajudar a reduzir faltas.
+A ideia principal é que as melhorias estejam diretamente relacionadas aos problemas encontrados. As melhorias marcadas como *backlog* não bloqueiam o lançamento — a causa raiz de cada problema já é endereçada no MVP; elas apenas tornam a solução mais completa.
 
 ---
 
-## 6. Requisitos Funcionais
+## 6. Requisitos Funcionais do MVP
 
 Os requisitos funcionais descrevem as ações que o sistema deve realizar.
 
@@ -241,7 +216,7 @@ Para manter os requisitos claros, foram utilizadas principalmente duas formas de
 
 ## RF01 — Gerenciamento de Pacientes
 
-**Prioridade: Alta**
+**Prioridade: MVP (Must)**
 
 O sistema deve permitir cadastrar pacientes.
 
@@ -263,7 +238,7 @@ O sistema não deve apagar automaticamente o histórico do paciente quando seu c
 
 ## RF02 — Gerenciamento de Médicos e Escalas
 
-**Prioridade: Alta**
+**Prioridade: MVP (Must)**
 
 O sistema deve permitir cadastrar médicos.
 
@@ -281,7 +256,7 @@ O sistema não deve disponibilizar para agendamento um horário que esteja fora 
 
 ## RF03 — Consulta de Horários Disponíveis
 
-**Prioridade: Alta**
+**Prioridade: MVP (Must)**
 
 O sistema deve permitir consultar os horários disponíveis para agendamento.
 
@@ -299,7 +274,7 @@ O sistema não deve apresentar como disponível um horário que já esteja ocupa
 
 ## RF04 — Agendamento de Consultas
 
-**Prioridade: Muito Alta**
+**Prioridade: MVP (Must)**
 
 O sistema deve permitir realizar o agendamento de consultas.
 
@@ -319,7 +294,7 @@ O sistema deve registrar a data e o horário em que o agendamento foi criado.
 
 ## RF05 — Cancelamento e Reagendamento
 
-**Prioridade: Muito Alta**
+**Prioridade: MVP (Must)**
 
 O sistema deve permitir cancelar uma consulta.
 
@@ -337,7 +312,7 @@ O sistema não deve manter dois horários ativos para a mesma consulta depois qu
 
 ## RF06 — Liberação Automática de Horários
 
-**Prioridade: Muito Alta**
+**Prioridade: MVP (Must)**
 
 Quando uma consulta for cancelada, o sistema deve liberar o horário automaticamente.
 
@@ -345,140 +320,13 @@ O sistema deve atualizar a agenda após o cancelamento.
 
 O horário liberado deve ficar disponível para novos agendamentos.
 
-O horário também pode ser utilizado no processo de fila de espera.
-
 O sistema não deve manter como ocupado um horário pertencente a uma consulta cancelada.
-
----
-
-## RF07 — Lembretes Automáticos
-
-**Prioridade: Muito Alta**
-
-O sistema deve enviar lembretes automáticos para os pacientes que possuem consultas futuras.
-
-O sistema deve enviar um lembrete com 24 horas de antecedência.
-
-O sistema deve enviar outro lembrete com 2 horas de antecedência.
-
-Os lembretes devem utilizar os canais de comunicação disponíveis e cadastrados pela clínica, como WhatsApp ou SMS.
-
-O sistema deve registrar o envio das mensagens.
-
-Quando o paciente responder à mensagem, o sistema deve registrar essa interação quando houver integração disponível.
-
-O sistema não deve enviar lembretes para consultas canceladas.
-
----
-
-## RF08 — Gerenciamento da Agenda pelo Médico
-
-**Prioridade: Alta**
-
-O sistema deve permitir que o médico consulte sua própria agenda.
-
-O sistema deve permitir que o médico visualize seus horários e pacientes agendados.
-
-O sistema deve permitir bloquear horários.
-
-O sistema deve considerar os horários bloqueados durante novos agendamentos.
-
-O sistema não deve permitir novos agendamentos em horários que estejam bloqueados.
-
-Quando uma alteração na agenda afetar pacientes já agendados, o sistema deve identificar os pacientes envolvidos.
-
----
-
-## RF09 — Prontuário Eletrônico
-
-**Prioridade: Alta**
-
-O sistema deve permitir registrar informações relacionadas às consultas no prontuário eletrônico.
-
-Cada registro deve estar associado ao paciente correspondente.
-
-O sistema deve permitir consultar o histórico autorizado do paciente.
-
-O sistema deve controlar o acesso às informações conforme as permissões de cada usuário.
-
-O sistema não deve permitir que usuários sem autorização visualizem ou alterem informações médicas restritas.
-
----
-
-## RF10 — Fila de Espera
-
-**Prioridade: Alta**
-
-O sistema deve permitir cadastrar pacientes em uma fila de espera.
-
-O sistema deve identificar horários que foram liberados após cancelamentos.
-
-O sistema deve permitir relacionar pacientes da fila aos horários compatíveis com sua disponibilidade.
-
-O sistema deve registrar o processo de contato e ocupação do horário.
-
-O sistema não deve confirmar o mesmo horário para mais de um paciente.
-
----
-
-## RF11 — Avisos sobre Alterações na Agenda
-
-**Prioridade: Alta**
-
-Quando ocorrer uma alteração na escala médica, o sistema deve identificar os pacientes afetados.
-
-O sistema deve gerar avisos para os pacientes que possuem consultas impactadas.
-
-O sistema deve registrar que a comunicação foi enviada.
-
-O sistema não deve enviar notificações de alteração para pacientes que não foram afetados pela mudança.
-
----
-
-## RF12 — Dashboard de Indicadores
-
-**Prioridade: Média**
-
-O sistema deve disponibilizar dashboards para acompanhamento do funcionamento da clínica.
-
-O sistema deve apresentar indicadores relacionados a:
-
-* Faltas dos pacientes;
-* Ocupação da agenda;
-* Cancelamentos;
-* Reocupação de horários;
-* Tempo de espera;
-* Tempo de atendimento na recepção;
-* Resposta aos lembretes;
-* Satisfação dos pacientes;
-* Disponibilidade do sistema;
-* Tempo de resposta das consultas.
-
-O sistema deve permitir visualizar os indicadores em períodos definidos.
-
----
-
-## RF13 — Autoatendimento
-
-**Prioridade: Alta**
-
-O sistema deve disponibilizar um canal de autoatendimento para os pacientes.
-
-O autoatendimento pode ser realizado por meio de um portal web ou chatbot integrado.
-
-O sistema deve permitir consultar horários disponíveis.
-
-O sistema deve validar o horário antes da confirmação do agendamento.
-
-O sistema não deve confirmar um horário que já esteja ocupado.
-
-As mesmas regras de disponibilidade utilizadas pela recepção devem ser respeitadas pelo autoatendimento.
 
 ---
 
 ## RF14 — Controle do Status do Atendimento
 
-**Prioridade: Muito Alta**
+**Prioridade: MVP (Must)**
 
 O sistema deve controlar os seguintes status:
 
@@ -498,51 +346,42 @@ O sistema não deve permitir que uma consulta cancelada seja iniciada como atend
 
 ---
 
-## RF15 — Pesquisa de Satisfação
+## 6.1 Backlog Funcional (fora do escopo do MVP)
 
-**Prioridade: Média**
+Itens que não bloqueiam o lançamento — a justificativa completa está na Seção 11.1.
 
-Após a conclusão do atendimento, o sistema deve permitir o envio de uma pesquisa de satisfação.
-
-A pesquisa deve estar relacionada ao atendimento realizado.
-
-O sistema deve registrar as respostas recebidas.
-
-As informações obtidas devem poder ser utilizadas nos indicadores de satisfação.
-
-O sistema não deve enviar pesquisas para consultas canceladas.
-
----
-
-## 7. Resumo dos Requisitos Funcionais
-
-| Código | Requisito                           | Prioridade |
-| ------ | ------------------------------------ | ---------- |
-| RF01   | Gerenciamento de Pacientes          | Alta       |
-| RF02   | Gerenciamento de Médicos e Escalas  | Alta       |
-| RF03   | Consulta de Horários Disponíveis    | Alta       |
-| RF04   | Agendamento de Consultas            | Muito Alta |
-| RF05   | Cancelamento e Reagendamento        | Muito Alta |
-| RF06   | Liberação Automática de Horários    | Muito Alta |
-| RF07   | Lembretes Automáticos               | Muito Alta |
-| RF08   | Gerenciamento da Agenda pelo Médico | Alta       |
-| RF09   | Prontuário Eletrônico               | Alta       |
-| RF10   | Fila de Espera                      | Alta       |
-| RF11   | Avisos sobre Alterações na Agenda   | Alta       |
-| RF12   | Dashboard de Indicadores            | Média      |
-| RF13   | Autoatendimento                     | Alta       |
-| RF14   | Controle do Status do Atendimento   | Muito Alta |
-| RF15   | Pesquisa de Satisfação              | Média      |
-
-*Observação: a coluna acima mantém a prioridade qualitativa original (Alta/Média/Muito Alta). A priorização MoSCoW revisada, com justificativa por item, está na Seção 11.*
+| Código | Requisito | MoSCoW | Resumo |
+|---|---|---|---|
+| RF07 | Lembretes Automáticos | S | Envio automático de lembretes 24h/2h antes via WhatsApp/SMS |
+| RF08 | Gerenciamento da Agenda pelo Médico | S | Médico consulta/bloqueia sua própria agenda |
+| RF09 | Prontuário Eletrônico | S | Registro de informações clínicas por consulta |
+| RF10 | Fila de Espera | S | Reaproveitamento automático de horários cancelados |
+| RF11 | Avisos sobre Alterações na Agenda | S | Notificação de pacientes afetados por mudança de escala |
+| RF12 | Dashboard de Indicadores | C | Painel gerencial visual da operação |
+| RF13 | Autoatendimento | C | Portal web/chatbot para o paciente agendar sozinho |
+| RF15 | Pesquisa de Satisfação | W | Coleta de feedback pós-atendimento |
 
 ---
 
-## 8. Requisitos Não Funcionais
+## 7. Resumo dos Requisitos Funcionais do MVP
+
+| Código | Requisito                           | Prioridade   |
+| ------ | ------------------------------------ | ------------ |
+| RF01   | Gerenciamento de Pacientes          | MVP (Must)   |
+| RF02   | Gerenciamento de Médicos e Escalas  | MVP (Must)   |
+| RF03   | Consulta de Horários Disponíveis    | MVP (Must)   |
+| RF04   | Agendamento de Consultas            | MVP (Must)   |
+| RF05   | Cancelamento e Reagendamento        | MVP (Must)   |
+| RF06   | Liberação Automática de Horários    | MVP (Must)   |
+| RF14   | Controle do Status do Atendimento   | MVP (Must)   |
+
+*O restante dos requisitos funcionais (RF07–RF13, RF15) está no backlog — ver Seção 6.1 e a priorização completa na Seção 11.1.*
+
+---
+
+## 8. Requisitos Não Funcionais do MVP
 
 Os requisitos não funcionais definem características relacionadas à qualidade do sistema, com base nas 9 características da ISO/IEC 25010:2023.
-
-Eles ajudam a estabelecer como o sistema deve se comportar em relação a desempenho, segurança, disponibilidade e facilidade de uso.
 
 ---
 
@@ -563,20 +402,6 @@ Os dados transmitidos entre o usuário e o sistema devem utilizar uma conexão s
 O sistema deve utilizar HTTPS/TLS para a comunicação entre a aplicação e seus usuários.
 
 O sistema não deve transmitir informações sensíveis por conexões não seguras.
-
----
-
-## RNF03 — Facilidade de Agendamento
-
-**Característica ISO/IEC 25010: Capacidade de Interação**
-
-A interface da recepção deve ser simples e objetiva.
-
-O processo de agendamento deve exigir o menor número possível de etapas.
-
-Depois que as informações principais estiverem definidas, a confirmação do agendamento deve ocorrer de forma rápida.
-
-A meta do projeto é permitir a conclusão da operação principal de agendamento em até três ações principais.
 
 ---
 
@@ -610,73 +435,31 @@ O acesso às informações deve ser controlado de acordo com as permissões de c
 
 ---
 
-## RNF07 — Acessos Simultâneos
+## 8.1 Backlog Não Funcional (fora do escopo do MVP)
 
-**Característica ISO/IEC 25010: Eficiência de desempenho**
-
-O sistema deve suportar pelo menos 50 acessos simultâneos.
-
-Durante esse período, as funcionalidades principais não devem apresentar perda significativa de desempenho.
-
----
-
-## RNF08 — Autenticação em Duas Etapas
-
-**Característica ISO/IEC 25010: Segurança**
-
-Médicos e gerentes devem utilizar autenticação em duas etapas quando acessarem o sistema.
-
-O sistema não deve permitir que esses perfis acessem funcionalidades sensíveis apenas com senha quando a autenticação em duas etapas estiver ativa.
+| Código | Requisito | Característica ISO/IEC 25010 | MoSCoW | Resumo |
+|---|---|---|---|---|
+| RNF03 | Facilidade de Agendamento | Capacidade de Interação | S | Concluir agendamento em até 3 ações principais |
+| RNF07 | Acessos Simultâneos | Eficiência de desempenho | S | Suportar 50 acessos simultâneos |
+| RNF08 | Autenticação em Duas Etapas | Segurança | S | 2FA para médicos e gerentes |
+| RNF09 | Compatibilidade | Compatibilidade | S | Suporte a Chrome, Firefox, Edge e Safari |
+| RNF10 | Responsividade | Capacidade de Interação | S | Adaptação a diferentes tamanhos de tela |
 
 ---
 
-## RNF09 — Compatibilidade
-
-**Característica ISO/IEC 25010: Compatibilidade**
-
-A aplicação web deve funcionar nos principais navegadores utilizados atualmente:
-
-* Google Chrome;
-* Mozilla Firefox;
-* Microsoft Edge;
-* Safari.
-
-As funcionalidades principais devem continuar disponíveis nos navegadores suportados.
-
----
-
-## RNF10 — Responsividade
-
-**Característica ISO/IEC 25010: Capacidade de Interação**
-
-A interface deve se adaptar a diferentes tamanhos de tela.
-
-O sistema deve permitir a utilização das funcionalidades principais em:
-
-* Computadores;
-* Smartphones;
-* Tablets.
-
----
-
-## 8.1 Tabela Consolidada de Requisitos Não Funcionais
+## 8.2 Tabela Consolidada de Requisitos Não Funcionais do MVP
 
 | Código | Requisito (resumo mensurável) | Característica ISO/IEC 25010:2023 | Prioridade (MoSCoW) | Critério de Aceitação / Verificação |
 |---|---|---|---|---|
 | RNF01 | Busca de horários responde em até 2s | Eficiência de desempenho | M | ≤2s para 95% das requisições, com até 500 usuários — testado por teste de carga |
 | RNF02 | Comunicação via HTTPS/TLS | Segurança | M | 100% das rotas com TLS ativo — verificado por scanner de vulnerabilidade |
-| RNF03 | Agendamento em até 3 ações principais | Capacidade de Interação | S | Testado com recepcionistas reais; meta de conclusão em ≤3 ações |
 | RNF04 | Disponibilidade mínima de 99,5%/mês | Confiabilidade | M | Uptime medido por monitoramento contínuo (status page/logs) |
 | RNF05 | Backup diário automatizado | Confiabilidade | M | Restauração testada periodicamente por simulação de recuperação |
 | RNF06 | Controle de acesso a dados sensíveis | Segurança | M | Tentativa de acesso não autorizado deve falhar — testado por controle de acesso |
-| RNF07 | Suporte a 50 acessos simultâneos | Eficiência de desempenho | S | Sem perda perceptível de desempenho — testado por teste de carga |
-| RNF08 | 2FA para médicos e gerentes | Segurança | S | Login sem 2FA deve ser bloqueado para esses perfis — teste funcional |
-| RNF09 | Compatível com Chrome, Firefox, Edge, Safari | Compatibilidade | S | Funcionalidades principais operando — testado cross-browser |
-| RNF10 | Responsivo em desktop, smartphone, tablet | Capacidade de Interação | S | Testado em múltiplas resoluções/dispositivos |
 
 ---
 
-## 9. Requisitos de Qualidade (Estudo de Caso)
+## 9. Requisitos de Qualidade (Estudo de Caso) — MVP
 
 ### 9.1 Do Conceito ao Requisito Mensurável (vago vs. mensurável)
 
@@ -685,33 +468,28 @@ Antes de aplicar o modelo, vale mostrar a diferença entre um requisito vago e a
 | Característica | Inadequado (vago) | Melhorado (mensurável — usado no projeto) |
 |---|---|---|
 | Eficiência de desempenho | "O sistema deve ser rápido para buscar horários." | RNF01: "O sistema deverá retornar os horários disponíveis em até 2 segundos, para 95% das requisições, considerando até 500 usuários simultâneos." |
-| Capacidade de Interação | "O agendamento deve ser fácil de usar." | RNF03: "O sistema deverá permitir concluir o agendamento em até 3 ações principais." |
-| Segurança | "O sistema deve ser seguro." | RNF02/RNF08: "O sistema deverá utilizar HTTPS/TLS em toda comunicação e exigir autenticação em duas etapas para médicos e gerentes." |
+| Segurança | "O sistema deve ser seguro." | RNF02: "O sistema deverá utilizar HTTPS/TLS em toda a comunicação entre cliente e servidor." |
 | Confiabilidade | "O sistema deve estar sempre disponível." | RNF04: "O sistema deverá manter disponibilidade mínima de 99,5% ao mês, monitorada continuamente." |
 
 ### 9.2 Aplicação ao Projeto
 
-Seguindo o modelo trabalhado em aula (identificar característica → justificar → formular requisito → definir critério de aceitação → indicar como testar), aplicado às situações reais do projeto da clínica:
+Seguindo o modelo trabalhado em aula (identificar característica → justificar → formular requisito → definir critério de aceitação → indicar como testar), aplicado às situações do MVP:
 
 | Nº | Situação / Problema | Característica ISO/IEC 25010 | Justificativa | Requisito Formulado | Critério de Aceitação | Como Testar |
 |---|---|---|---|---|---|---|
 | 1 | Busca de horários lenta prejudica o atendimento na recepção | Eficiência de desempenho | O tempo de resposta afeta diretamente o fluxo de atendimento e a adoção do sistema pela equipe | O sistema deverá retornar os horários disponíveis em até 2 segundos, para 95% das requisições, considerando até 500 usuários simultâneos | 95% das buscas respondem em ≤2s sob carga de até 500 usuários simultâneos | Teste de carga (ex.: k6/JMeter) simulando 500 usuários, medindo o percentil 95 do tempo de resposta |
 | 2 | Dados de pacientes trafegando sem proteção entre app e servidor | Segurança | Dados de saúde são sensíveis e protegidos por lei (LGPD); vazamento gera risco legal e de confiança | O sistema deverá criptografar toda a comunicação entre cliente e servidor utilizando TLS 1.2 ou superior | 100% das rotas usando HTTPS; nenhuma rota aceita conexão HTTP não criptografada | Varredura de segurança (ex.: OWASP ZAP) e verificação de certificado válido em todas as rotas |
-| 3 | Fluxo de agendamento longo e com muitas etapas na recepção | Capacidade de Interação | Processos manuais e telas complexas aumentam o tempo de atendimento e a chance de erro | O sistema deverá permitir concluir o agendamento em até 3 ações principais | 90% dos recepcionistas completam o fluxo em ≤3 ações e ≤2 minutos | Teste de usabilidade moderado com recepcionistas reais, medindo etapas e tempo de execução |
-| 4 | Sistema indisponível impede o atendimento aos pacientes | Confiabilidade | Em saúde, indisponibilidade impede diretamente o atendimento; risco operacional alto | O sistema deverá manter disponibilidade mínima de 99,5% ao mês, monitorada continuamente | Uptime mensal ≥99,5%, medido por ferramenta de monitoramento | Acompanhamento contínuo (ex.: status page/logs) com relatório mensal de uptime |
-| 5 | Perda de dados de pacientes em caso de falha do sistema | Confiabilidade | Perda de histórico clínico é inaceitável no domínio de saúde | O sistema deverá realizar backup diário automatizado do banco de dados, com restauração testada mensalmente | Backup executado diariamente sem falha; restauração completa validada em teste mensal | Simulação de restauração de backup em ambiente de teste, validando integridade dos dados |
-| 6 | Usuário sem permissão acessa prontuário de outro paciente | Segurança | Viola a RN08 e a legislação de proteção de dados; risco de exposição de dados clínicos | O sistema não deverá permitir que usuários sem autorização visualizem ou alterem informações médicas restritas | Tentativa de acesso não autorizado é bloqueada e registrada em log | Teste de controle de acesso tentando abrir o prontuário com um perfil sem permissão |
-| 7 | Paciente tenta usar o autoatendimento pelo celular e a tela não funciona bem | Capacidade de Interação | O autoatendimento é majoritariamente acessado fora da clínica, pelo celular do paciente | A interface deverá se adaptar a diferentes tamanhos de tela, mantendo as funcionalidades principais utilizáveis em smartphones, tablets e desktops | Funcionalidades principais operacionais em resoluções de 360px a 1920px | Teste manual/automatizado em diferentes dispositivos e resoluções (emuladores + dispositivos reais) |
-| 8 | Pico de acessos no horário de abertura derruba o desempenho do sistema | Eficiência de desempenho | O início do expediente concentra recepcionistas e pacientes acessando simultaneamente | O sistema deverá suportar pelo menos 50 acessos simultâneos sem perda significativa de desempenho | Tempo de resposta não aumenta de forma perceptível sob 50 acessos simultâneos | Teste de carga simulando 50 usuários simultâneos executando as funcionalidades principais |
-| 9 | Computadores da recepção usam navegadores diferentes entre si | Compatibilidade | A aplicação precisa funcionar de forma confiável independentemente do navegador já instalado na clínica | A aplicação deverá funcionar corretamente em Chrome, Firefox, Edge e Safari, mantendo as funcionalidades principais operacionais | RFs principais (busca, agendamento, cancelamento) funcionam sem erros nos 4 navegadores | Testes cross-browser (ex.: BrowserStack) rodando os fluxos principais em cada navegador |
+| 3 | Sistema indisponível impede o atendimento aos pacientes | Confiabilidade | Em saúde, indisponibilidade impede diretamente o atendimento; risco operacional alto | O sistema deverá manter disponibilidade mínima de 99,5% ao mês, monitorada continuamente | Uptime mensal ≥99,5%, medido por ferramenta de monitoramento | Acompanhamento contínuo (ex.: status page/logs) com relatório mensal de uptime |
+| 4 | Perda de dados de pacientes em caso de falha do sistema | Confiabilidade | Perda de histórico clínico é inaceitável no domínio de saúde | O sistema deverá realizar backup diário automatizado do banco de dados, com restauração testada mensalmente | Backup executado diariamente sem falha; restauração completa validada em teste mensal | Simulação de restauração de backup em ambiente de teste, validando integridade dos dados |
+| 5 | Usuário sem permissão acessa dados restritos de outro paciente | Segurança | Risco de exposição de dados protegidos pela legislação (LGPD) | O sistema não deverá permitir que usuários sem autorização visualizem ou alterem informações restritas de outros perfis | Tentativa de acesso não autorizado é bloqueada e registrada em log | Teste de controle de acesso tentando abrir dados com um perfil sem permissão |
+
+*As situações relacionadas a itens do backlog (ex.: compatibilidade multi-navegador, responsividade, 2FA) poderão ser formalizadas neste mesmo formato quando essas funcionalidades forem priorizadas.*
 
 ---
 
----
+## 10. Indicadores para Acompanhar o MVP
 
-## 10. Indicadores para Acompanhar o Processo
-
-Os indicadores permitem acompanhar se o sistema está realmente ajudando a resolver os problemas identificados no início do projeto.
+Os indicadores permitem acompanhar se o sistema está realmente ajudando a resolver os problemas identificados no início do projeto, mesmo sem as automações do backlog.
 
 ---
 
@@ -719,7 +497,7 @@ Os indicadores permitem acompanhar se o sistema está realmente ajudando a resol
 
 Representa o percentual de pacientes que não comparecem à consulta sem realizar o cancelamento.
 
-Esse indicador ajuda a avaliar a quantidade de faltas e a eficiência dos lembretes automáticos.
+Serve como linha de base para comparação futura, quando os lembretes automáticos (RF07, backlog) forem implementados.
 
 **Fórmula:**
 
@@ -739,23 +517,7 @@ Esse indicador permite avaliar se a capacidade de atendimento da clínica está 
 
 ---
 
-### 10.3 Tempo Médio de Reocupação de Vaga
-
-Mede quanto tempo um horário cancelado demora para ser ocupado novamente.
-
-Quanto menor for esse tempo, mais eficiente tende a ser o processo de fila de espera e reaproveitamento da agenda.
-
----
-
-### 10.4 Taxa de Conversão da Lista de Prioridade
-
-Mostra o percentual de horários que foram recuperados e preenchidos utilizando a lista de prioridade ou fila de espera.
-
-Esse indicador ajuda a verificar se o processo de reocupação está funcionando.
-
----
-
-### 10.5 Tempo Médio de Atendimento na Recepção
+### 10.3 Tempo Médio de Atendimento na Recepção
 
 Mede o tempo necessário para realizar o processo inicial do paciente na recepção.
 
@@ -763,7 +525,7 @@ Pode envolver a identificação do paciente, consulta do agendamento e alteraç�
 
 ---
 
-### 10.6 Tempo Médio de Espera do Paciente
+### 10.4 Tempo Médio de Espera do Paciente
 
 Mede o tempo que o paciente permanece aguardando depois de ser registrado como **"Em Espera"** até o início do atendimento.
 
@@ -771,7 +533,7 @@ Esse indicador está diretamente relacionado à experiência do paciente.
 
 ---
 
-### 10.7 Índice de Retrabalho no Cadastro
+### 10.5 Índice de Retrabalho no Cadastro
 
 Acompanha situações em que os dados precisam ser cadastrados novamente ou corrigidos.
 
@@ -779,35 +541,15 @@ O objetivo é verificar se a centralização das informações está reduzindo o
 
 ---
 
-### 10.8 Taxa de Resposta aos Lembretes
-
-Mostra o percentual de pacientes que respondem aos lembretes enviados.
-
-Esse indicador pode ajudar a avaliar o nível de interação dos pacientes com os canais de comunicação utilizados.
-
-**Fórmula:**
-
-> Taxa de Resposta = (Pacientes que responderam / Pacientes que receberam o lembrete) × 100
-
----
-
-### 10.9 Índice de Satisfação do Paciente
-
-Representa os resultados obtidos nas pesquisas de satisfação.
-
-Os dados podem ser utilizados para identificar pontos positivos e problemas percebidos pelos pacientes.
-
----
-
-### 10.10 Índice de Disponibilidade
+### 10.6 Índice de Disponibilidade
 
 Mostra o percentual de tempo em que o sistema permaneceu disponível.
 
-Esse indicador permite acompanhar a meta de disponibilidade definida nos requisitos não funcionais.
+Esse indicador permite acompanhar a meta de disponibilidade definida no RNF04.
 
 ---
 
-### 10.11 Tempo de Resposta de Busca
+### 10.7 Tempo de Resposta de Busca
 
 Mede o tempo necessário para o sistema retornar os horários disponíveis.
 
@@ -815,9 +557,9 @@ O objetivo é verificar se o sistema está cumprindo a meta de resposta definida
 
 ---
 
-## 11. Priorização MoSCoW
+## 11. Priorização MoSCoW (Escopo do MVP e Backlog)
 
-A priorização foi feita considerando principalmente se o sistema consegue ser lançado e resolver o problema central do negócio sem cada requisito. Cada item recebeu uma letra (**M**ust, **S**hould, **C**ould, **W**on't) e uma justificativa própria.
+A priorização foi feita considerando principalmente se o sistema consegue ser lançado e resolver o problema central do negócio sem cada requisito. Cada item recebeu uma letra (**M**ust, **S**hould, **C**ould, **W**on't) e uma justificativa própria. Esta seção é a referência completa — os itens Should/Could/Won't aqui documentados são os mesmos resumidos nas Seções 6.1 e 8.1.
 
 ### 11.1 Requisitos Funcionais
 
@@ -863,33 +605,33 @@ Na versão anterior da priorização, 13 itens estavam classificados como Alta/M
 - **Rebaixados de Alta → Should:** RF07, RF08, RF09, RF10, RF11 — melhoram a experiência ou a eficiência operacional, mas o sistema é utilizável (de forma mais manual) sem eles.
 - **Mantidos como Could/Won't:** RF12, RF13 (Could) e RF15 (Won't) — não bloqueiam a operação central.
 
-O teste aplicado em cada item foi: *"se este requisito não existir na V1, o sistema deixa de resolver o problema de negócio central (conflito de horários, retrabalho, duplicidade) ou gera risco legal/de segurança?"* — só os 12 itens acima passaram nesse teste.
+Esses 12 itens (7 RF + 5 RNF) são exatamente o que compõe o corpo principal deste documento (Seções 6 e 8); os demais formam o backlog.
 
 ---
 
 ## 12. Análise de Conflitos de Qualidade (Trade-offs)
 
-As características de qualidade não são independentes — priorizar uma pode prejudicar outra. Abaixo estão os principais trade-offs identificados no projeto, com a decisão tomada e a justificativa (seguindo o critério da aula: contexto de uso, risco, perfil dos usuários, regras de negócio e consequência de falha).
+As características de qualidade não são independentes — priorizar uma pode prejudicar outra. Alguns dos trade-offs abaixo envolvem funcionalidades do backlog (RF07, RF08, RF13, RNF08); ficam documentados desde já para quando essas funcionalidades forem priorizadas.
 
-**1. Segurança (RNF06, RNF08) vs. Capacidade de Interação (RF13)**
-Exigir autenticação forte para acessar áreas sensíveis (prontuário, dados clínicos) aumenta a segurança, mas cria fricção no autoatendimento do paciente.
-*Decisão:* manter 2FA obrigatório para médicos e gerentes (dados sensíveis, exigência legal), mas usar autenticação simplificada (código único por SMS/e-mail) no autoatendimento do paciente, já que o risco de exposição de dados nesse fluxo é menor.
+**1. Segurança (RNF06, RNF08*) vs. Capacidade de Interação (RF13*)**
+Exigir autenticação forte para acessar áreas sensíveis aumenta a segurança, mas cria fricção no autoatendimento do paciente.
+*Decisão:* manter 2FA obrigatório para médicos e gerentes quando implementado (dados sensíveis, exigência legal), mas usar autenticação simplificada no autoatendimento, já que o risco de exposição de dados nesse fluxo é menor. *(\*RNF08 e RF13 são backlog)*
 
-**2. Eficiência de Desempenho (RNF01, RNF07) vs. Confiabilidade (RF06)**
+**2. Eficiência de Desempenho (RNF01, RNF07*) vs. Confiabilidade (RF06)**
 Liberar e reocupar horários automaticamente em tempo real, sob alta concorrência de acessos, pode gerar condição de corrida — dois pacientes disputando o mesmo horário liberado.
 *Decisão:* priorizar consistência (verificação/bloqueio antes de confirmar) mesmo com pequeno aumento de latência na confirmação. Evitar um conflito de agendamento (RN02) é mais crítico do que ganhar milissegundos.
 
-**3. Compatibilidade (RF07 — integração WhatsApp/SMS) vs. Segurança/Privacidade (RNF06)**
+**3. Compatibilidade (RF07* — integração WhatsApp/SMS) vs. Segurança/Privacidade (RNF06)**
 Integrar com canais externos amplia o alcance da comunicação, mas expõe dados do paciente a provedores terceiros.
-*Decisão:* manter a integração, mas restringir o conteúdo enviado ao mínimo necessário (nome, data e horário), sem dados clínicos — mantém a automação sem ampliar o risco.
+*Decisão:* quando RF07 for implementado, restringir o conteúdo enviado ao mínimo necessário (nome, data e horário), sem dados clínicos. *(\*RF07 é backlog)*
 
 **4. Flexibilidade (visão futura da Seção 13 — múltiplas unidades, integração financeira) vs. Manutenibilidade**
 Projetar já pensando em expansão futura aumenta a complexidade da arquitetura desde o início.
-*Decisão:* adotar arquitetura modular simples na V1 (Manutenibilidade priorizada) e adiar a generalização para quando a expansão for confirmada — evita over-engineering prematuro.
+*Decisão:* adotar arquitetura modular simples no MVP (Manutenibilidade priorizada) e adiar a generalização para quando a expansão for confirmada — evita over-engineering prematuro.
 
-**5. Capacidade de Interação (RNF03 — até 3 ações) vs. Adequação Funcional (RF04 — validações antes de confirmar)**
-Quanto mais validações de negócio (escala, bloqueios, CPF, disponibilidade) o sistema faz antes de confirmar, mais isso pode conflitar com a meta de poucas etapas.
-*Decisão:* manter todas as validações (são regras de negócio inegociáveis — RN01 a RN03), executando-as no backend sem telas extras, preservando a meta de usabilidade sem abrir mão da integridade dos dados.
+**5. Capacidade de Interação vs. Adequação Funcional (RF04 — validações antes de confirmar)**
+Quanto mais validações de negócio (escala, bloqueios, CPF, disponibilidade) o sistema faz antes de confirmar, mais isso pode aumentar o tempo do fluxo.
+*Decisão:* manter todas as validações (são regras de negócio inegociáveis — RN01 a RN04), executando-as no backend sem telas extras, preservando a fluidez do agendamento sem abrir mão da integridade dos dados.
 
 **6. Confiabilidade (RNF04, RNF05) vs. Custo/Recursos**
 Alta disponibilidade e backups redundantes têm custo de infraestrutura maior.
@@ -899,11 +641,8 @@ Alta disponibilidade e backups redundantes têm custo de infraestrutura maior.
 
 ## 13. Melhorias Futuras
 
-Depois da implantação das funcionalidades principais, o sistema poderá receber novos recursos.
+Além dos itens já mapeados como backlog priorizado (RF07–RF13, RF15, RNF03 e RNF07–RNF10 — ver Seções 6.1, 8.1 e 11), após a validação do MVP o sistema poderá receber novos recursos mais adiante, tais como:
 
-Algumas possibilidades são:
-
-* Melhorias na fila de espera;
 * Novos canais de comunicação;
 * Integração com outros sistemas da clínica;
 * Aplicativo móvel próprio;
@@ -911,36 +650,33 @@ Algumas possibilidades são:
 * Análise de padrões de faltas;
 * Automação de processos administrativos;
 * Integração com processos financeiros;
-* Ampliação dos dashboards;
 * Novos recursos de autoatendimento.
 
-Essas melhorias não precisam fazer parte da primeira versão do sistema, mas podem ser consideradas conforme a necessidade da clínica.
+Essas melhorias não precisam fazer parte da primeira versão do sistema, mas podem ser consideradas conforme a necessidade da clínica e a validação do MVP.
 
 ---
 
 ## 14. Conclusão
 
-O principal objetivo deste projeto é melhorar a organização dos processos da clínica por meio de um sistema integrado.
+O principal objetivo deste projeto é melhorar a organização dos processos da clínica por meio de um sistema integrado, começando por um MVP enxuto e evoluindo com base no backlog priorizado.
 
 Os problemas identificados estão relacionados principalmente à falta de centralização das informações, à utilização de processos manuais e à dificuldade de comunicação entre os envolvidos.
 
-Com a implantação do sistema, espera-se:
+Com a implantação do MVP, espera-se:
 
 * Reduzir conflitos de horários;
 * Evitar cadastros duplicados;
 * Diminuir o retrabalho;
 * Facilitar a atualização dos dados;
-* Melhorar a comunicação com os pacientes;
-* Reduzir faltas;
 * Melhorar o controle de cancelamentos;
-* Reaproveitar horários disponíveis;
 * Organizar o fluxo de atendimento;
-* Proteger informações sensíveis;
-* Acompanhar os resultados por meio de indicadores.
+* Proteger informações sensíveis.
 
-O sistema não deve apenas substituir planilhas ou automatizar tarefas isoladas. A proposta é integrar os principais processos da clínica e permitir que as informações estejam organizadas, atualizadas e disponíveis para quem realmente precisa utilizá-las.
+Os demais ganhos mapeados — melhorar a comunicação com os pacientes, reduzir faltas, reaproveitar horários via fila de espera e acompanhar resultados por dashboards — dependem dos itens do backlog (Seção 11) e ficam para as próximas fases.
 
-Dessa forma, a clínica poderá ter um processo de agendamento e atendimento mais organizado, com menos erros e maior facilidade para acompanhar os resultados.
+O sistema não deve apenas substituir planilhas ou automatizar tarefas isoladas. A proposta é integrar os principais processos da clínica, começando pelo essencial, e permitir que as informações estejam organizadas, atualizadas e disponíveis para quem realmente precisa utilizá-las.
+
+---
 
 ## 15. Fontes
 
