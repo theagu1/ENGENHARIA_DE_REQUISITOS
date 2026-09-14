@@ -911,7 +911,25 @@ Dessa forma, a clínica poderá ter um processo de agendamento e atendimento mai
 
 ---
 
-## 14. Fontes
+## 14. Requisitos de Qualidade (Estudo de Caso)
+
+Seguindo o modelo trabalhado em aula (identificar característica → justificar → formular requisito → definir critério de aceitação → indicar como testar), aplicado às situações reais do projeto da clínica:
+
+| Nº | Situação / Problema | Característica ISO/IEC 25010 | Justificativa | Requisito Formulado | Critério de Aceitação | Como Testar |
+|---|---|---|---|---|---|---|
+| 1 | Busca de horários lenta prejudica o atendimento na recepção | Eficiência de desempenho | O tempo de resposta afeta diretamente o fluxo de atendimento e a adoção do sistema pela equipe | O sistema deverá retornar os horários disponíveis em até 2 segundos, para 95% das requisições, considerando até 500 usuários simultâneos | 95% das buscas respondem em ≤2s sob carga de até 500 usuários simultâneos | Teste de carga (ex.: k6/JMeter) simulando 500 usuários, medindo o percentil 95 do tempo de resposta |
+| 2 | Dados de pacientes trafegando sem proteção entre app e servidor | Segurança | Dados de saúde são sensíveis e protegidos por lei (LGPD); vazamento gera risco legal e de confiança | O sistema deverá criptografar toda a comunicação entre cliente e servidor utilizando TLS 1.2 ou superior | 100% das rotas usando HTTPS; nenhuma rota aceita conexão HTTP não criptografada | Varredura de segurança (ex.: OWASP ZAP) e verificação de certificado válido em todas as rotas |
+| 3 | Fluxo de agendamento longo e com muitas etapas na recepção | Capacidade de Interação | Processos manuais e telas complexas aumentam o tempo de atendimento e a chance de erro | O sistema deverá permitir concluir o agendamento em até 3 ações principais | 90% dos recepcionistas completam o fluxo em ≤3 ações e ≤2 minutos | Teste de usabilidade moderado com recepcionistas reais, medindo etapas e tempo de execução |
+| 4 | Sistema indisponível impede o atendimento aos pacientes | Confiabilidade | Em saúde, indisponibilidade impede diretamente o atendimento; risco operacional alto | O sistema deverá manter disponibilidade mínima de 99,5% ao mês, monitorada continuamente | Uptime mensal ≥99,5%, medido por ferramenta de monitoramento | Acompanhamento contínuo (ex.: status page/logs) com relatório mensal de uptime |
+| 5 | Perda de dados de pacientes em caso de falha do sistema | Confiabilidade | Perda de histórico clínico é inaceitável no domínio de saúde | O sistema deverá realizar backup diário automatizado do banco de dados, com restauração testada mensalmente | Backup executado diariamente sem falha; restauração completa validada em teste mensal | Simulação de restauração de backup em ambiente de teste, validando integridade dos dados |
+| 6 | Usuário sem permissão acessa prontuário de outro paciente | Segurança | Viola a RN08 e a legislação de proteção de dados; risco de exposição de dados clínicos | O sistema não deverá permitir que usuários sem autorização visualizem ou alterem informações médicas restritas | Tentativa de acesso não autorizado é bloqueada e registrada em log | Teste de controle de acesso tentando abrir o prontuário com um perfil sem permissão |
+| 7 | Paciente tenta usar o autoatendimento pelo celular e a tela não funciona bem | Capacidade de Interação | O autoatendimento é majoritariamente acessado fora da clínica, pelo celular do paciente | A interface deverá se adaptar a diferentes tamanhos de tela, mantendo as funcionalidades principais utilizáveis em smartphones, tablets e desktops | Funcionalidades principais operacionais em resoluções de 360px a 1920px | Teste manual/automatizado em diferentes dispositivos e resoluções (emuladores + dispositivos reais) |
+| 8 | Pico de acessos no horário de abertura derruba o desempenho do sistema | Eficiência de desempenho | O início do expediente concentra recepcionistas e pacientes acessando simultaneamente | O sistema deverá suportar pelo menos 50 acessos simultâneos sem perda significativa de desempenho | Tempo de resposta não aumenta de forma perceptível sob 50 acessos simultâneos | Teste de carga simulando 50 usuários simultâneos executando as funcionalidades principais |
+| 9 | Computadores da recepção usam navegadores diferentes entre si | Compatibilidade | A aplicação precisa funcionar de forma confiável independentemente do navegador já instalado na clínica | A aplicação deverá funcionar corretamente em Chrome, Firefox, Edge e Safari, mantendo as funcionalidades principais operacionais | RFs principais (busca, agendamento, cancelamento) funcionam sem erros nos 4 navegadores | Testes cross-browser (ex.: BrowserStack) rodando os fluxos principais em cada navegador |
+
+---
+
+## 15. Fontes
 
 - ISO/IEC 25010:2023 — *Systems and software engineering — Systems and software Quality Requirements and Evaluation (SQuaRE) — Product quality model*. 2ª ed.
 - ISO/IEC 25002:2024 — *Quality model overview and usage*.
