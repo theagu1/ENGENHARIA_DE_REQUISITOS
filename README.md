@@ -1,4 +1,4 @@
-# Sistema de Gestão Clínica Médica
+# Sistema de Gestão para Clínica Médica
 ### Engenharia de Requisitos — MVP
 
 **Centro Universitário de Brasília (CEUB)** • Engenharia de Requisitos • 2026/2
