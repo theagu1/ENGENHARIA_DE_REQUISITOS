@@ -3,7 +3,7 @@
 
 **Centro Universitário de Brasília (CEUB)** • Engenharia de Requisitos • 2026/2
 
-**Alunos:** [Thiago Braziellas](https://github.com/theagu1), Pedro Ryan, Luiz Claudio e Arthur Santos
+**Alunos:** [Thiago Braziellas](https://github.com/theagu1), [Pedro Ryan](https://github.com/PedroRLMDF), [Luiz Claudio](https://github.com/lluiz22) e [Arthur Santos](https://github.com/arthursantos12-ceub)
 
 **Base metodológica:** BABoK v3 (IIBA) • ISO/IEC 25010:2023 • MoSCoW • LGPD (Lei nº 13.709/2018)
 
