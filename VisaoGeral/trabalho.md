@@ -5,8 +5,7 @@ Este documento descreve o escopo da **primeira versão (MVP)** do sistema. Os re
 
 ---
 
-#alunos
-Thiago Braziellas,Arthur Santos,Luiz Claudio, Pedro Ryan
+# alunos : Thiago Braziellas,Arthur Santos,Luiz Claudio, Pedro Ryan
 ## 1. Stakeholders
 
 Os stakeholders são as pessoas ou grupos que utilizam o sistema, participam do processo ou são afetados diretamente pelas mudanças que ele vai trazer para a clínica.
